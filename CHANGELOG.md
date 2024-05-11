@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.27.0](https://github.com/ellite/Wallos/compare/v1.26.2...v1.27.0) (2024-05-11)
+
+
+### Features
+
+* add korean translation ([#314](https://github.com/ellite/Wallos/issues/314)) ([bc40320](https://github.com/ellite/Wallos/commit/bc403206905b39c3aa88f3eb51e59b41e2a5e24e))
+
+## [1.26.2](https://github.com/ellite/Wallos/compare/v1.26.1...v1.26.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* russian translations ([#309](https://github.com/ellite/Wallos/issues/309)) ([8f890fc](https://github.com/ellite/Wallos/commit/8f890fc5d3a62a91feec50564179b3241ed538bf))
+
+## [1.26.1](https://github.com/ellite/Wallos/compare/v1.26.0...v1.26.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* background removal experimental setting ([#307](https://github.com/ellite/Wallos/issues/307)) ([bb5ee2e](https://github.com/ellite/Wallos/commit/bb5ee2e64c11b1415da3aa50119dfaa3783be37f))
+
+## [1.26.0](https://github.com/ellite/Wallos/compare/v1.25.1...v1.26.0) (2024-05-08)
+
+
+### Features
+
+* add russian translation ([#305](https://github.com/ellite/Wallos/issues/305)) ([ae04d50](https://github.com/ellite/Wallos/commit/ae04d50329c1fb0117e186f89fef38b495cbbe9c))
+
 ## [1.25.1](https://github.com/ellite/Wallos/compare/v1.25.0...v1.25.1) (2024-05-07)
 
 
