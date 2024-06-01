@@ -5,7 +5,7 @@
   include_once 'includes/list_subscriptions.php';
 
   $sort = "next_payment";
-  $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
+  $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC, inactive ASC";
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
     $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
@@ -14,11 +14,13 @@
       $order = "DESC";
     }
     if (in_array($sort, $allowedSortCriteria)) {
-      $sql = "SELECT * FROM subscriptions ORDER BY $sort $order, inactive ASC";
+      $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY $sort $order, inactive ASC";
     }
   }
         
-  $result = $db->query($sql);
+  $stmt = $db->prepare($sql);
+  $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+  $result = $stmt->execute();
   if ($result) {
     $subscriptions = array();
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -37,7 +39,7 @@
     <section class="contain">
       <header class="<?= $headerClass ?>" id="main-actions">
         <button class="button" onClick="addSubscription()">
-          <img class="button-icon" src="images/siteicons/plusicon.png">
+          <i class="fa-solid fa-circle-plus"></i>
           <?= translate('new_subscription', $i18n) ?>
         </button>
         <div class="top-actions">
@@ -47,7 +49,7 @@
           </div>  
 
           <div class="filtermenu on-dashboard">
-            <button class="button" id="filtermenu-button" title="<?= translate("filter", $i18n) ?>">
+            <button class="button secondary-button" id="filtermenu-button" title="<?= translate("filter", $i18n) ?>">
               <i class="fa-solid fa-filter"></i>
             </button>
             <div class="filtermenu-content">
@@ -126,8 +128,8 @@
           </div>
 
           <div class="sort-container">
-            <button class="button" value="Sort" onClick="toggleSortOptions()" id="sort-button" title="<?= translate('sort', $i18n) ?>">
-              <img src="images/siteicons/sort.png" class="button-icon" />
+            <button class="button secondary-button" value="Sort" onClick="toggleSortOptions()" id="sort-button" title="<?= translate('sort', $i18n) ?>">
+              <i class="fa-solid fa-arrow-down-wide-short"></i>
             </button>
             <div class="sort-options" id="sort-options">
               <ul>
@@ -160,7 +162,7 @@
             $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
             $currencyId = $subscription['currency_id'];
             $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
-            $paymentIconFolder = $paymentMethodId <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+            $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
             $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
             $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
             $print[$id]['payment_method_id'] = $paymentMethodId;
@@ -193,7 +195,7 @@
                   <?= translate('no_subscriptions_yet', $i18n) ?>
                 </p>
                 <button class="button" onClick="addSubscription()">
-                  <img class="button-icon" src="images/siteicons/plusicon.png">
+                  <i class="fa-solid fa-circle-plus"></i>
                   <?= translate('add_first_subscription', $i18n) ?>
                 </button>
               </div>
@@ -276,8 +278,23 @@
           </div>
 
           <div class="form-group-inline">
-            <input type="checkbox" id="notifications" name="notifications">
+            <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
             <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
+          </div>
+
+          <div class="form-group">
+            <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>
+            <select id="notify_days_before" name="notify_days_before" disabled>
+              <option value="0"><?= translate('default_value_from_settings', $i18n) ?></option>
+              <option value="1">1 <?= translate('day_before', $i18n) ?></option>
+              <?php
+                for ($i = 2; $i <= 90; $i++) {
+              ?>
+                <option value="<?= $i ?>"><?= $i ?> <?= translate('days_before', $i18n) ?></option>
+              <?php
+                }
+              ?>
+              </select>
           </div>
 
           <div class="form-group">

@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "主要货币",
     "language"        => "语言",
     "passwords_dont_match" => "密码不匹配",
+    "username_exists" => "用户名已存在",
+    "email_exists"    => "电子邮箱已存在",
     "registration_failed" => "注册失败，请重试。",
     "register"        => "注册",
     "restore_database" => "恢复数据库",
@@ -19,11 +21,20 @@ $i18n = [
     'stay_logged_in'  => "30 天内免登录",
     'login'           => "登录",
     'login_failed'    => "登录信息错误",
+    'registration_successful' => "注册成功",
+    'user_email_waiting_verification' => "您的电子邮件需要验证。请检查您的电子邮件",
+    
+    // Password Reset Page
+    'forgot_password' => "忘记密码",
+    'reset_password'  => "重置密码",
+    'reset_sent_check_email' => "重置密码链接已发送到您的电子邮箱",
+    'password_reset_successful' => "密码重置成功",
 
     // 页眉
     'subscriptions'   => "订阅",
     'stats'           => "统计",
     'settings'        => "设置",
+    'admin'           => "管理员",
     'about'           => "关于",
     'logout'          => "登出",
 
@@ -77,6 +88,7 @@ $i18n = [
     "url"             => "链接",
     "notes"           => "备注",
     "enable_notifications" => "为此订阅启用通知",
+    "default_value_from_settings" => "默认值从设置中获取",
     "delete"          => "删除",
     "cancel"          => "取消",
     "upload_logo"     => "上传 Logo",
@@ -90,7 +102,11 @@ $i18n = [
     'average_monthly' => "平均每月订阅费用",
     'most_expensive'  => "最昂贵订阅费用",
     'amount_due'      => "本月应付金额",
+    'percentage_budget_used' => "预算使用百分比",
+    'budget_remaining' => "剩余预算",
+    'amount_over_budget' => "超出预算",
     'monthly_savings' => "每月节省",
+    'yearly_savings'  => "每年节省",
     'split_views'     => "拆分视图",
     'category_split'  => "分类视图",
     'household_split' => "家庭视图",
@@ -108,6 +124,8 @@ $i18n = [
     'upload_avatar'   => "上传头像",
     'file_type_error' => "文件类型不允许",
     'user_details'    => "用户详情",
+    "monthly_budget"  => "每月预算",
+    "budget_info"     => "设置预算后，您可以在统计页面上比较预算和实际支出。",
     "household"       => "家庭",
     "save_member"     => "保存成员",
     "delete_member"   => "删除成员",
@@ -263,6 +281,26 @@ $i18n = [
     // User
     "error_updating_user_data" => "更新用户数据时出错。",
     "user_details_saved" => "用户详细信息已保存",
+
+    // Admin Page
+    "registrations" => "注册",
+    "enable_user_registrations" => "启用用户注册",
+    "maximum_number_users" => "最大用户数",
+    "require_email_verification" => "需要电子邮件验证",
+    "configure_smtp_settings_to_enable" => "要启用此功能，请配置 SMTP 设置。",
+    "server_url"       => "服务器 URL",
+    "server_url_info" => "用于电子邮件验证和密码恢复。必须是有效的公共 URL。",
+    "server_url_password_reset" => "如果设置，还将启用密码重置功能。",
+    "max_users_info"  => "设置为 0 以无限制用户数",
+    "user_management" => "用户管理",
+    "delete_user" => "删除用户",
+    "delete_user_info" => "删除用户也会删除其所有订阅和设置。",
+    "smtp_settings" => "SMTP 设置",
+    "smtp_usage_info" => "将用于密码恢复和其他系统电子邮件。",
+
+    // Email Verification
+    "email_verified" => "电子邮件已验证",
+    "email_verification_failed" => "电子邮件验证失败",
 
 ];
 

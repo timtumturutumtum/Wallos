@@ -1,6 +1,5 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
-    session_start();
 
     require_once '../../includes/currency_formatter.php';
     require_once '../../includes/getdbkeys.php';
@@ -35,7 +34,7 @@
         }
 
         $params = array();
-        $sql = "SELECT * FROM subscriptions WHERE 1=1";
+        $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
 
         if (isset($_GET['category']) && $_GET['category'] != "") {
             $sql .= " AND category_id = :category";
@@ -55,6 +54,7 @@
         $sql .= " ORDER BY $sort $order, inactive ASC";
 
         $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
         foreach ($params as $key => $value) {
             $stmt->bindValue($key, $value);
@@ -76,7 +76,7 @@
           $id = $subscription['id'];
           $print[$id]['id'] = $id;
           $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/".$subscription['logo'] : $defaultLogo;
-          $print[$id]['name'] = htmlspecialchars_decode($subscription['name']);
+          $print[$id]['name'] = htmlspecialchars_decode($subscription['name'] ?? ""); 
           $cycle = $subscription['cycle'];
           $frequency = $subscription['frequency'];
           $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
@@ -84,7 +84,7 @@
           $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
           $currencyId = $subscription['currency_id'];
           $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
-          $paymentIconFolder = $paymentMethodId <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+          $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
           $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
           $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
           $print[$id]['payment_method_id'] = $paymentMethodId;
@@ -92,8 +92,8 @@
           $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
           $print[$id]['price'] = floatval($subscription['price']);
           $print[$id]['inactive'] = $subscription['inactive'];
-          $print[$id]['url'] = htmlspecialchars_decode($subscription['url']);
-          $print[$id]['notes'] = htmlspecialchars_decode($subscription['notes']);
+          $print[$id]['url'] = htmlspecialchars_decode($subscription['url'] ?? "");
+          $print[$id]['notes'] = htmlspecialchars_decode($subscription['notes'] ?? "");
 
           if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
             $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);

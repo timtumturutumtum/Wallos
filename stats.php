@@ -23,10 +23,11 @@
   }
 
 
-  function getPriceConverted($price, $currency, $database) {
-      $query = "SELECT rate FROM currencies WHERE id = :currency";
+  function getPriceConverted($price, $currency, $database, $userId) {
+      $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
       $stmt = $database->prepare($query);
       $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
+      $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
       $result = $stmt->execute();
       
       $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
@@ -40,8 +41,10 @@
 
 //Get household members
 $members = array();
-$query = "SELECT * FROM household";
-$result = $db->query($query);
+$query = "SELECT * FROM household WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $memberId = $row['id'];
     $members[$memberId] = $row;
@@ -51,8 +54,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 // Get categories
 $categories = array();
-$query = "SELECT * FROM categories ORDER BY 'order' ASC";
-$result = $db->query($query);
+$query = "SELECT * FROM categories WHERE user_id = :userId ORDER BY 'order' ASC";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $categoryId = $row['id'];
     $categories[$categoryId] = $row;
@@ -62,8 +67,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 // Get payment methods
 $paymentMethodCount = array();
-$query = "SELECT * FROM payment_methods WHERE enabled = 1";
-$result = $db->query($query);
+$query = "SELECT * FROM payment_methods WHERE user_id = :userId AND enabled = 1";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $paymentMethodId = $row['id'];
     $paymentMethodCount[$paymentMethodId] = $row;
@@ -75,8 +82,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 $query = "SELECT c.code
           FROM currencies c
           INNER JOIN user u ON c.id = u.main_currency
-          WHERE u.id = 1";
+          WHERE u.id = :userId";
 $stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $code = $row['code'];
@@ -113,6 +121,9 @@ if (isset($_GET['payment'])) {
     $statsSubtitleParts[] = $paymentMethodCount[$_GET['payment']]['name'];
 }
 
+$conditions[] = "user_id = :userId";
+$params[':userId'] = $userId;
+
 if (!empty($conditions)) {
     $query .= " WHERE " . implode(' AND ', $conditions);
 }
@@ -142,7 +153,7 @@ if ($result) {
       $categoryId = $subscription['category_id'];
       $paymentMethodId = $subscription['payment_method_id'];
       $inactive = $subscription['inactive'];
-      $originalSubscriptionPrice = getPriceConverted($price, $currency, $db);
+      $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
 
       if ($inactive == 0) {
@@ -187,13 +198,29 @@ if ($result) {
     $totalCostPerYear = $totalCostPerMonth * 12;
   
     // Calculate average subscription monthly cost
-    $averageSubscriptionCost = $totalCostPerMonth / $activeSubscriptions;
+    if ($activeSubscriptions > 0) {
+      $averageSubscriptionCost = $totalCostPerMonth / $activeSubscriptions;
+    } else {
+      $totalCostPerYear = 0;
+      $averageSubscriptionCost = 0;
+    }
   } else {
     $totalCostPerYear = 0;
     $averageSubscriptionCost = 0;
   }
 }
  
+if (isset($userData['budget']) && $userData['budget'] > 0) {
+  $budget = $userData['budget'];
+  $budgetLeft = $budget - $totalCostPerMonth;
+  $budgetLeft = $budgetLeft < 0 ? 0 : $budgetLeft;
+  $budgetUsed = ($totalCostPerMonth / $budget) * 100;
+  $budgetUsed = $budgetUsed > 100 ? 100 : $budgetUsed;
+  if ($totalCostPerMonth > $budget) {
+    $overBudgetAmount = $totalCostPerMonth - $budget;
+  }
+} 
+
 $numberOfElements = 6;
 ?>
 <section class="contain">
@@ -202,7 +229,7 @@ $numberOfElements = 6;
       <?= translate('general_statistics', $i18n) ?> <span class="header-subtitle"><?= $statsSubtitle ?></span>
     </h2>
     <div class="filtermenu">
-      <button class="button" id="filtermenu-button">
+      <button class="button secondary-button" id="filtermenu-button">
         <i class="fa-solid fa-filter"></i>
         <?= translate("filter", $i18n) ?>
       </button>
@@ -328,8 +355,35 @@ $numberOfElements = 6;
       <div class="title"><?= translate('amount_due', $i18n) ?></div>
     </div>
     <?php
+      if (isset($budgetUsed)) {
+        $numberOfElements += 1;
+        ?>
+          <div class="statistic">
+            <span><?= number_format($budgetUsed, 2) ?>%</span>
+            <div class="title"><?= translate('percentage_budget_used', $i18n) ?></div>
+          </div>
+        <?php
+      }
+      if (isset($budgetLeft)) {
+        $numberOfElements += 1;
+        ?>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($budgetLeft, $code) ?></span>
+            <div class="title"><?= translate('budget_remaining', $i18n) ?></div>
+          </div>
+        <?php
+      }
+      if (isset($overBudgetAmount)) {
+        $numberOfElements += 1;
+        ?>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($overBudgetAmount, $code) ?></span>
+            <div class="title"><?= translate('amount_over_budget', $i18n) ?></div>
+          </div>
+        <?php
+      }
       if ($inactiveSubscriptions > 0) {
-        $numberOfElements = 8;
+        $numberOfElements += 3;
         ?>
           <div class="statistic">
             <span><?= $inactiveSubscriptions ?></span>
@@ -338,6 +392,10 @@ $numberOfElements = 6;
           <div class="statistic">
             <span><?= CurrencyFormatter::format($totalSavingsPerMonth, $code) ?></span>
             <div class="title"><?= translate('monthly_savings', $i18n) ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($totalSavingsPerMonth * 12, $code) ?></span>
+            <div class="title"><?= translate('yearly_savings', $i18n) ?></div>
           </div>
         <?php
       }
@@ -351,28 +409,32 @@ $numberOfElements = 6;
   </div>
   <?php
     $categoryDataPoints = [];
-    foreach ($categoryCost as $category) {
-      if ($category['cost'] != 0) {
-        $categoryDataPoints[] = [
-            "label" => $category['name'],
-            "y"     => $category["cost"],
-        ];
+    if (isset($categoryCost)) {
+      foreach ($categoryCost as $category) {
+        if ($category['cost'] != 0) {
+          $categoryDataPoints[] = [
+              "label" => $category['name'],
+              "y"     => $category["cost"],
+          ];
+        }
       }
     }
-
+    
     $showCategoryCostGraph = count($categoryDataPoints) > 1;
 
     $memberDataPoints = [];
-    foreach ($memberCost as $member) {
-      if ($member['cost'] != 0) {
-        $memberDataPoints[] = [
-            "label" => $member['name'],
-            "y"     => $member["cost"],
-        ];
-        
+    if (isset($memberCost)) {
+      foreach ($memberCost as $member) {
+        if ($member['cost'] != 0) {
+          $memberDataPoints[] = [
+              "label" => $member['name'],
+              "y"     => $member["cost"],
+          ];
+          
+        }
       }
     }
-
+   
     $showMemberCostGraph = count($memberDataPoints) > 1;
 
     $paymentMethodDataPoints = [];

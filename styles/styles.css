@@ -123,11 +123,9 @@ header .logo .logo-image {
   color: black;
   padding: 14px 18px;
   text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a > i {
-  margin-right: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 .dropdown-content a:hover {
@@ -231,6 +229,11 @@ main > .contain {
   z-index: 2;
   color: var(--main-color);
   font-size: 20px;
+}
+
+.rtl .top-actions > .search > .search-icon {
+  float: left;
+  right: -15px;
 }
 
 .subscriptions {
@@ -340,6 +343,12 @@ main > .contain {
   margin-right: 12px;
 }
 
+.rtl .subscription .price img {
+  margin-right: 0px;
+  margin-left: 12px;
+
+}
+
 .subscription .actions {
   flex-basis: auto;
 }
@@ -359,6 +368,7 @@ main > .contain {
 .subscription-secondary > span {
   justify-content: flex-start;
   flex-basis: 33%;
+  gap: 10px;
 }
 
 .subscription-secondary > .url {
@@ -367,10 +377,16 @@ main > .contain {
   cursor: pointer;
 }
 
+.rtl .subscription-secondary > .url {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
 .subscription-notes > span {
   display: flex;
   align-items: center;
   font-size: 14px;
+  gap: 10px;
 }
 
 @media (max-width: 768px) {
@@ -403,7 +419,6 @@ main > .contain {
 .subscription-secondary img,
 .subscription-notes img {
   height: 20px;
-  margin-right: 10px;
 }
 
 .subscription-secondary .url img {
@@ -526,6 +541,8 @@ header #avatar {
     background-color: rgba(0,0,0,0.6);
     border-radius: 39px;
     cursor: pointer;
+    color: #FFFFFF;
+    font-size: 30px;
 }
 
 .user-form .user-avatar:hover > .edit-avatar {
@@ -536,10 +553,6 @@ header #avatar {
   .user-form .user-avatar:hover > .edit-avatar {
     display: none;
   }
-}
-
-.user-form .user-avatar .edit-avatar > img {
-  width: 30px;
 }
 
 .avatar-select {
@@ -647,7 +660,8 @@ header #avatar {
 .account-currencies .buttons, 
 .account-fixer .buttons,
 .account-categories .buttons,
-.account-notifications .buttons {
+.account-notifications .buttons,
+.admin-form .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -768,8 +782,8 @@ header #avatar {
 
 .payments-list .payments-payment .drag-icon {
   height: 20px;
-  width: 12px;
-  background-size: contain;
+  width: 14px;
+  font-size: 14px;
 }
 
 .payments-list .payments-payment > img {
@@ -799,6 +813,14 @@ header #avatar {
   margin: 0px;
 }
 
+.settings-notes {
+  margin-bottom: 1.5em;
+}
+
+.settings-notes > p {
+  margin-bottom: 0px;
+}
+
 .credits-list > p > span,
 .settings-notes > p > span {
   color: #AAA;
@@ -812,6 +834,12 @@ header #avatar {
   color: var(--accent-color);
 }
 
+.rtl .credits-list > p > span > a,
+.rtl .settings-notes > p > span > a {
+  margin-left: 0px;
+  margin-right: 5px;
+}
+
 .credits-list > p > span > a:visited,
 .settings-notes > p > span > a:visited {
   color: var(--accent-color);
@@ -821,6 +849,12 @@ header #avatar {
 .account-section .notes > p > i {
   color: var(--main-color);
   margin-right: 5px;
+} 
+
+.rtl .settings-notes > p > i,
+.rtl .account-section .notes > p > i {
+  margin-right: 0px;
+  margin-left: 5px;
 } 
 
 .form-group {
@@ -1249,6 +1283,11 @@ textarea.thin {
   color: gray;
 }
 
+.rtl .close-form {
+  right: auto;
+  left: 15px;
+}
+
 .sort-container {
   position: relative;
 }
@@ -1268,6 +1307,11 @@ textarea.thin {
   width: 144px;
   width: max-content;
   z-index: 2;
+}
+
+.rtl .sort-options {
+  left: 0px;
+  right: auto;
 }
 
 @media (max-width: 380px) {
@@ -1293,6 +1337,10 @@ textarea.thin {
   cursor: pointer;
 }
 
+.rtl .sort-options > ul > li {
+  padding: 14px 18px 14px 35px;
+}
+
 .sort-options > ul > li:last-of-type {
   border-bottom: none;
 }
@@ -1306,6 +1354,10 @@ textarea.thin {
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: center right 10px;
+}
+
+.rtl .sort-options > ul > li.selected {
+  background-position: center left 10px;
 }
 
 .subscription-list-title {
@@ -1330,6 +1382,7 @@ textarea.thin {
   transform: translateX(calc(100% + 30px));
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
   box-sizing: border-box;
+  z-index: 5;
 }
 
 @media (max-width: 768px) {
@@ -1499,6 +1552,8 @@ textarea.thin {
 
 .statistic > .subtitle > img {
   width: 100px;
+  max-height: 40px;
+  object-fit: contain;
 }
 
 .graphs {
@@ -1559,16 +1614,17 @@ textarea.thin {
   width: 28px;
   height: 50px;
   cursor: grab;
-  background-image: url(../images/siteicons/draggable.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 14px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
 }
 
 .sortable-list .sortable-ghost {
-  border-radius: 16px;
+  border-radius: 8px;
   background-color: rgba(var(--accent-color-rgb), 0.6);
   border: 1px solid var(--accent-color);
+  padding: 5px;
 }
 
 /* Fitler dropdown */
@@ -1592,6 +1648,12 @@ textarea.thin {
   z-index: 3;
   overflow: hidden;
   margin-top: 6px;
+}
+
+.rtl .filtermenu-content {
+  left: 0;
+  right: auto;
+
 }
 
 @media (max-width: 354px) {
@@ -1647,6 +1709,10 @@ textarea.thin {
   background-position: center right 10px;
 }
 
+.rtl .filtermenu-content .filter-item.selected {
+  background-position: center left 10px;
+}
+
 .filtermenu-content .filter-title.filter-clear {
   color: var(--hover-color);
   font-weight: normal;
@@ -1655,6 +1721,11 @@ textarea.thin {
 
 .filtermenu-content .filter-title.filter-clear > i {
   margin-right: 8px;
+}
+
+.rtl .filtermenu-content .filter-title.filter-clear > i {
+  margin-left: 8px;
+  margin-right: 0px;
 }
 
 .filtermenu-content .filter-item:hover,
@@ -1780,4 +1851,46 @@ textarea.thin {
 
 .wrap {
   flex-wrap: wrap;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.user-list > div {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.user-list .user-list-row {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .user-list .user-list-row  {
+    flex-direction: column;
+  }
+}
+
+.user-list .user-list-row:last-of-type {
+  flex-grow: 0;
+}
+
+.user-list .user-list-row > div {
+  display: flex;
+  flex-basis: 50%;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.user-list a {
+  color: var(--main-color);
+  text-decoration: none;
 }

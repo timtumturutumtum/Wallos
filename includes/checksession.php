@@ -8,10 +8,13 @@
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
         $result = $stmt->execute();
         $userData = $result->fetchArray(SQLITE3_ASSOC);
+        $userId = $userData['id'];
 
         if ($userData === false) {
             header('Location: logout.php');
             exit();
+        } else {
+            $_SESSION['userId'] = $userData['id'];
         }
 
         if ($userData['avatar'] == "") {
@@ -43,10 +46,10 @@
                 }
                 $userId = $userData['id'];
                 $main_currency = $userData['main_currency'];
-                $sql = "SELECT * FROM login_tokens WHERE user_id = ? AND token = ?";
+                $sql = "SELECT * FROM login_tokens WHERE user_id = :userId AND token = :token";
                 $stmt = $db->prepare($sql);
-                $stmt->bindParam(1, $userId, SQLITE3_TEXT);
-                $stmt->bindParam(2, $token, SQLITE3_TEXT);
+                $stmt->bindParam(':userId', $userId, SQLITE3_TEXT);
+                $stmt->bindParam(':token', $token, SQLITE3_TEXT);
                 $result = $stmt->execute();
                 $row = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -55,6 +58,7 @@
                     $_SESSION['token'] = $token;
                     $_SESSION['loggedin'] = true;
                     $_SESSION['main_currency'] = $main_currency;
+                    $_SESSION['userId'] = $userId;
                 } else {
                     $db->close();
                     header("Location: logout.php");
