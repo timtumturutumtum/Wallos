@@ -1,4 +1,6 @@
 let isSortOptionsOpen = false;
+let scrollTopBeforeOpening = 0;
+const shouldScroll = window.innerWidth <= 768;
 
 function toggleOpenSubscription(subId) {
   const subscriptionElement = document.querySelector('.subscription[data-id="' + subId + '"]');
@@ -45,10 +47,11 @@ function fillEditFormFields(subscription) {
   const formTitle = document.querySelector("#form-title");
   formTitle.textContent = translate('edit_subscription');
   const logo = document.querySelector("#form-logo");
-  const defaultLogo = window.theme && window.theme == "light" ? "images/siteicons/" + colorTheme + "/wallos.png" : "images/siteicons/" + colorTheme + "/walloswhite.png";
-  const logoFile = subscription.logo !== null ? "images/uploads/logos/" + subscription.logo : defaultLogo;
-  logo.src = logoFile;
-  logo.style = 'display: block';
+  const logoFile = subscription.logo !== null ? "images/uploads/logos/" + subscription.logo : "";
+  if (logoFile) {
+    logo.src = logoFile;
+    logo.style = 'display: block';
+  }
   const logoSearchButton = document.querySelector("#logo-search-button");
   logoSearchButton.classList.remove("disabled");
   const id = document.querySelector("#id");
@@ -73,6 +76,9 @@ function fillEditFormFields(subscription) {
 
   const nextPament = document.querySelector("#next_payment");
   nextPament.value = subscription.next_payment;
+  const cancellationDate = document.querySelector("#cancellation_date");
+  cancellationDate.value = subscription.cancellation_date;
+
   const notes = document.querySelector("#notes");
   notes.value = subscription.notes;
   const inactive = document.querySelector("#inactive");
@@ -101,6 +107,7 @@ function fillEditFormFields(subscription) {
 
 function openEditSubscription(event, id) {
     event.stopPropagation();
+    scrollTopBeforeOpening = window.scrollY;
     const body = document.querySelector('body');
     body.classList.add('no-scroll');
     const url = `endpoints/subscription/get.php?id=${id}`;
@@ -138,6 +145,9 @@ function closeAddSubscription() {
     modal.classList.remove("is-open"); 
     const body = document.querySelector('body');
     body.classList.remove('no-scroll');
+    if (shouldScroll) {
+      window.scrollTo(0, scrollTopBeforeOpening);
+    }
     resetForm();
 }
 

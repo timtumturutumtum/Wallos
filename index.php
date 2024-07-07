@@ -29,7 +29,6 @@ if ($result) {
 }
 
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
-$defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
 ?>
 <style>
   .logo-preview:after {
@@ -94,7 +93,8 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
                   }
                   ?>
                   <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-                    <?= $category['name'] ?></div>
+                    <?= $category['name'] ?>
+                  </div>
                   <?php
                 }
                 ?>
@@ -117,7 +117,8 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
                   }
                   ?>
                   <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
-                    <?= $payment['name'] ?></div>
+                    <?= $payment['name'] ?>
+                  </div>
                   <?php
                 }
                 ?>
@@ -142,11 +143,14 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
         <div class="sort-options" id="sort-options">
           <ul>
             <li <?= $sort == "name" ? 'class="selected"' : "" ?> onClick="setSortOption('name')" id="sort-name">
-              <?= translate('name', $i18n) ?></li>
+              <?= translate('name', $i18n) ?>
+            </li>
             <li <?= $sort == "id" ? 'class="selected"' : "" ?> onClick="setSortOption('id')" id="sort-id">
-              <?= translate('last_added', $i18n) ?></li>
+              <?= translate('last_added', $i18n) ?>
+            </li>
             <li <?= $sort == "price" ? 'class="selected"' : "" ?> onClick="setSortOption('price')" id="sort-price">
-              <?= translate('price', $i18n) ?></li>
+              <?= translate('price', $i18n) ?>
+            </li>
             <li <?= $sort == "next_payment" ? 'class="selected"' : "" ?> onClick="setSortOption('next_payment')"
               id="sort-next_payment"><?= translate('next_payment', $i18n) ?></li>
             <li <?= $sort == "payer_user_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payer_user_id')"
@@ -168,7 +172,7 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
       }
       $id = $subscription['id'];
       $print[$id]['id'] = $id;
-      $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : $defaultLogo;
+      $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : "";
       $print[$id]['name'] = $subscription['name'];
       $cycle = $subscription['cycle'];
       $frequency = $subscription['frequency'];
@@ -198,7 +202,7 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
     }
 
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme);
+      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "");
     }
     $db->close();
 
@@ -218,172 +222,181 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
     }
     ?>
   </div>
+</section>
+<section class="subscription-form" id="subscription-form">
+  <header>
+    <h3 id="form-title"><?= translate('add_subscription', $i18n) ?></h3>
+    <span class="fa-solid fa-xmark close-form" onClick="closeAddSubscription()"></span>
+  </header>
+  <form action="endpoints/subscription/add.php" method="post" id="subs-form">
 
-  <section class="subscription-form" id="subscription-form">
-    <header>
-      <h3 id="form-title"><?= translate('add_subscription', $i18n) ?></h3>
-      <span class="fa-solid fa-xmark close-form" onClick="closeAddSubscription()"></span>
-    </header>
-    <form action="endpoints/subscription/add.php" method="post" id="subs-form">
-
-      <div class="form-group-inline">
-        <input type="text" id="name" name="name" placeholder="<?= translate('subscription_name', $i18n) ?>"
-          onchange="setSearchButtonStatus()" onkeypress="this.onchange();" onpaste="this.onchange();"
-          oninput="this.onchange();" required>
-        <label for="logo" class="logo-preview">
-          <img src="" alt="<?= translate('logo_preview', $i18n) ?>" id="form-logo">
-        </label>
-        <input type="file" id="logo" name="logo" accept="image/jpeg, image/png, image/gif, image/webp"
-          onchange="handleFileSelect(event)" class="hidden-input">
-        <input type="hidden" id="logo-url" name="logo-url">
-        <div id="logo-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>"
-          onClick="searchLogo()">
-          <img src="images/siteicons/<?= $colorTheme ?>/websearch.png">
-        </div>
-        <input type="hidden" id="id" name="id">
-        <div id="logo-search-results" class="logo-search">
-          <header>
-            <?= translate('web_search', $i18n) ?>
-            <span class="fa-solid fa-xmark close-logo-search" onClick="closeLogoSearch()"></span>
-          </header>
-          <div id="logo-search-images"></div>
-        </div>
+    <div class="form-group-inline">
+      <input type="text" id="name" name="name" placeholder="<?= translate('subscription_name', $i18n) ?>"
+        onchange="setSearchButtonStatus()" onkeypress="this.onchange();" onpaste="this.onchange();"
+        oninput="this.onchange();" required>
+      <label for="logo" class="logo-preview">
+        <img src="" alt="<?= translate('logo_preview', $i18n) ?>" id="form-logo">
+      </label>
+      <input type="file" id="logo" name="logo" accept="image/jpeg, image/png, image/gif, image/webp"
+        onchange="handleFileSelect(event)" class="hidden-input">
+      <input type="hidden" id="logo-url" name="logo-url">
+      <div id="logo-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>"
+        onClick="searchLogo()">
+        <?php include "images/siteicons/svg/websearch.php"; ?>
       </div>
+      <input type="hidden" id="id" name="id">
+      <div id="logo-search-results" class="logo-search">
+        <header>
+          <?= translate('web_search', $i18n) ?>
+          <span class="fa-solid fa-xmark close-logo-search" onClick="closeLogoSearch()"></span>
+        </header>
+        <div id="logo-search-images"></div>
+      </div>
+    </div>
 
-      <div class="form-group-inline">
-        <input type="number" step="0.01" id="price" name="price" placeholder="<?= translate('price', $i18n) ?>"
-          required>
-        <select id="currency" name="currency_id" placeholder="<?= translate('add_subscription', $i18n) ?>">
-          <?php
-          foreach ($currencies as $currency) {
-            $selected = ($currency['id'] == $main_currency) ? 'selected' : '';
-            ?>
-            <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
-            <?php
-          }
+    <div class="form-group-inline">
+      <input type="number" step="0.01" id="price" name="price" placeholder="<?= translate('price', $i18n) ?>" required>
+      <select id="currency" name="currency_id" placeholder="<?= translate('add_subscription', $i18n) ?>">
+        <?php
+        foreach ($currencies as $currency) {
+          $selected = ($currency['id'] == $main_currency) ? 'selected' : '';
           ?>
-        </select>
-      </div>
+          <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
+          <?php
+        }
+        ?>
+      </select>
+    </div>
 
-      <div class="form-group">
-        <div class="inline">
-          <div class="split66">
-            <label for="cycle"><?= translate('payment_every', $i18n) ?></label>
-            <div class="inline">
-              <select id="frequency" name="frequency" placeholder="<?= translate('frequency', $i18n) ?>">
-                <?php
-                for ($i = 1; $i <= 366; $i++) {
-                  ?>
-                  <option value="<?= $i ?>"><?= $i ?></option>
-                  <?php
-                }
+    <div class="form-group">
+      <div class="inline">
+        <div class="split66">
+          <label for="cycle"><?= translate('payment_every', $i18n) ?></label>
+          <div class="inline">
+            <select id="frequency" name="frequency" placeholder="<?= translate('frequency', $i18n) ?>">
+              <?php
+              for ($i = 1; $i <= 366; $i++) {
                 ?>
-              </select>
-              <select id="cycle" name="cycle" placeholder="Cycle">
+                <option value="<?= $i ?>"><?= $i ?></option>
                 <?php
-                foreach ($cycles as $cycle) {
-                  ?>
-                  <option value="<?= $cycle['id'] ?>" <?= $cycle['id'] == 3 ? "selected" : "" ?>>
-                    <?= translate(strtolower($cycle['name']), $i18n) ?></option>
-                  <?php
-                }
+              }
+              ?>
+            </select>
+            <select id="cycle" name="cycle" placeholder="Cycle">
+              <?php
+              foreach ($cycles as $cycle) {
                 ?>
-              </select>
-            </div>
-          </div>
-          <div class="split33">
-            <label for="next_payment"><?= translate('next_payment', $i18n) ?></label>
-            <input type="date" id="next_payment" name="next_payment" required>
+                <option value="<?= $cycle['id'] ?>" <?= $cycle['id'] == 3 ? "selected" : "" ?>>
+                  <?= translate(strtolower($cycle['name']), $i18n) ?>
+                </option>
+                <?php
+              }
+              ?>
+            </select>
           </div>
         </div>
+        <div class="split33">
+          <label for="next_payment"><?= translate('next_payment', $i18n) ?></label>
+          <input type="date" id="next_payment" name="next_payment" required>
+        </div>
       </div>
+    </div>
 
-      <div class="form-group-inline">
-        <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
-        <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
-      </div>
-
-      <div class="form-group">
-        <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>
-        <select id="notify_days_before" name="notify_days_before" disabled>
-          <option value="0"><?= translate('default_value_from_settings', $i18n) ?></option>
-          <option value="1">1 <?= translate('day_before', $i18n) ?></option>
-          <?php
-          for ($i = 2; $i <= 90; $i++) {
-            ?>
-            <option value="<?= $i ?>"><?= $i ?>   <?= translate('days_before', $i18n) ?></option>
+    <div class="form-group">
+      <div class="inline">
+        <div class="split50">
+          <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>
+          <select id="payment_method" name="payment_method_id">
             <?php
-          }
-          ?>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>
-        <select id="payment_method" name="payment_method_id">
-          <?php
-          foreach ($payment_methods as $payment) {
+            foreach ($payment_methods as $payment) {
+              ?>
+              <option value="<?= $payment['id'] ?>">
+                <?= $payment['name'] ?>
+              </option>
+              <?php
+            }
             ?>
-            <option value="<?= $payment['id'] ?>">
-              <?= $payment['name'] ?>
-            </option>
+          </select>
+        </div>
+        <div class="split50">
+          <label for="payer_user"><?= translate('paid_by', $i18n) ?></label>
+          <select id="payer_user" name="payer_user_id">
             <?php
-          }
-          ?>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="category"><?= translate('category', $i18n) ?></label>
-        <select id="category" name="category_id">
-          <?php
-          foreach ($categories as $category) {
+            foreach ($members as $member) {
+              ?>
+              <option value="<?= $member['id'] ?>"><?= $member['name'] ?></option>
+              <?php
+            }
             ?>
-            <option value="<?= $category['id'] ?>">
-              <?= $category['name'] ?>
-            </option>
-            <?php
-          }
-          ?>
-        </select>
+          </select>
+        </div>
       </div>
+    </div>
 
-
-      <div class="form-group">
-        <label for="payer_user"><?= translate('paid_by', $i18n) ?></label>
-        <select id="payer_user" name="payer_user_id">
+    <div class="form-group">
+      <label for="category"><?= translate('category', $i18n) ?></label>
+      <select id="category" name="category_id">
+        <?php
+        foreach ($categories as $category) {
+          ?>
+          <option value="<?= $category['id'] ?>">
+            <?= $category['name'] ?>
+          </option>
           <?php
-          foreach ($members as $member) {
-            ?>
-            <option value="<?= $member['id'] ?>"><?= $member['name'] ?></option>
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="form-group-inline">
+      <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
+      <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
+    </div>
+
+    <div class="form-group">
+      <div class="inline">
+        <div class="split66 mobile-split-50">
+          <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>
+          <select id="notify_days_before" name="notify_days_before" disabled>
+            <option value="0"><?= translate('default_value_from_settings', $i18n) ?></option>
+            <option value="1">1 <?= translate('day_before', $i18n) ?></option>
             <?php
-          }
-          ?>
-        </select>
+            for ($i = 2; $i <= 90; $i++) {
+              ?>
+              <option value="<?= $i ?>"><?= $i ?>   <?= translate('days_before', $i18n) ?></option>
+              <?php
+            }
+            ?>
+          </select>
+        </div>
+        <div class="split33 mobile-split-50">
+          <label for="cancellation_date"><?= translate('cancellation_notification', $i18n) ?></label>
+          <input type="date" id="cancellation_date" name="cancellation_date">
+        </div>
       </div>
+    </div>
 
-      <div class="form-group">
-        <input type="text" id="url" name="url" placeholder="<?= translate('url', $i18n) ?>">
-      </div>
+    <div class="form-group">
+      <input type="text" id="url" name="url" placeholder="<?= translate('url', $i18n) ?>">
+    </div>
 
-      <div class="form-group">
-        <input type="text" id="notes" name="notes" placeholder="<?= translate('notes', $i18n) ?>">
-      </div>
+    <div class="form-group">
+      <input type="text" id="notes" name="notes" placeholder="<?= translate('notes', $i18n) ?>">
+    </div>
 
-      <div class="form-group-inline">
-        <input type="checkbox" id="inactive" name="inactive">
-        <label for="inactive"><?= translate('inactive', $i18n) ?></label>
-      </div>
+    <div class="form-group-inline">
+      <input type="checkbox" id="inactive" name="inactive">
+      <label for="inactive"><?= translate('inactive', $i18n) ?></label>
+    </div>
 
-      <div class="buttons">
-        <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left thin" id="deletesub"
-          style="display: none">
-        <input type="button" value="<?= translate('cancel', $i18n) ?>" class="secondary-button thin"
-          onClick="closeAddSubscription()">
-        <input type="submit" value="<?= translate('save', $i18n) ?>" class="thin" id="save-button">
-      </div>
-    </form>
-  </section>
+    <div class="buttons">
+      <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left thin" id="deletesub"
+        style="display: none">
+      <input type="button" value="<?= translate('cancel', $i18n) ?>" class="secondary-button thin"
+        onClick="closeAddSubscription()">
+      <input type="submit" value="<?= translate('save', $i18n) ?>" class="thin" id="save-button">
+    </div>
+  </form>
 </section>
 <script src="scripts/dashboard.js?<?= $version ?>"></script>
 

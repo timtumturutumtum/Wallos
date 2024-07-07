@@ -105,7 +105,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $pushover['token'] = $row["token"];
     }
 
-    // Check if Nrfy notifications are enabled and get the settings
+    // Check if Ntfy notifications are enabled and get the settings
     $query = "SELECT * FROM ntfy_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);
     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
