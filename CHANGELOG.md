@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.16.1](https://github.com/ellite/Wallos/compare/v2.16.0...v2.16.1) (2024-07-10)
+
+
+### Bug Fixes
+
+* error when logos folder is empty ([#439](https://github.com/ellite/Wallos/issues/439)) ([e2e5061](https://github.com/ellite/Wallos/commit/e2e5061d1506652384ceed018aa4330b8548b792))
+
+## [2.16.0](https://github.com/ellite/Wallos/compare/v2.15.0...v2.16.0) (2024-07-10)
+
+
+### Features
+
+* add calendar to pwa shortcuts ([21ebf29](https://github.com/ellite/Wallos/commit/21ebf29f11405ab24b1b0ffd16eb667de4dfc189))
+* change apple touch icon ([21ebf29](https://github.com/ellite/Wallos/commit/21ebf29f11405ab24b1b0ffd16eb667de4dfc189))
+
+## [2.15.0](https://github.com/ellite/Wallos/compare/v2.14.2...v2.15.0) (2024-07-09)
+
+
+### Features
+
+* add maintenance tasks to admin page ([9f7f47b](https://github.com/ellite/Wallos/commit/9f7f47b5d1be2697c2c612bfddb6119c63a3d517))
+* add support to upload svg logos ([9f7f47b](https://github.com/ellite/Wallos/commit/9f7f47b5d1be2697c2c612bfddb6119c63a3d517))
+
+## [2.14.2](https://github.com/ellite/Wallos/compare/v2.14.1...v2.14.2) (2024-07-08)
+
+
+### Bug Fixes
+
+* broken subscription update query ([#431](https://github.com/ellite/Wallos/issues/431)) ([b00a985](https://github.com/ellite/Wallos/commit/b00a9855453663aeb2f1f4b7f0db3aca3994b12b))
+
 ## [2.14.1](https://github.com/ellite/Wallos/compare/v2.14.0...v2.14.1) (2024-07-05)
 
 
