@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "첫번째 구독을 추가하세요.",
     'new_subscription' => "새 구독",
     'search' => "검색",
+    'state' => "상태",
     'sort' => "정렬",
     'name' => "이름",
     'last_added' => "최근 등록",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "취소",
     "upload_logo" => "로고 업로드",
     // Statistics page
+    'cant_convert_currency' => "구독에서 여러 통화를 사용하고 있습니다. 유효하고 정확한 통계를 얻으려면 설정 페이지에서 Fixer API 키를 설정하세요.",
     'general_statistics' => "일반 통계",
     'active_subscriptions' => "활성 구독",
     'inactive_subscriptions' => "비활성 구독",

@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "最初の定期購入を追加する",
     'new_subscription' => "新しい定期購入",
     'search' => "検索",
+    'state' => "状態",
     'sort' => "並べ替え",
     'name' => "名前",
     'last_added' => "最終追加日",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "キャンセル",
     "upload_logo" => "ロゴのアップロード",
     // Statistics page
+    'cant_convert_currency' => "購読に複数の通貨を使用しています。有効で正確な統計を取るには、設定ページでFixer API Keyを設定してください。",
     'general_statistics' => "一般統計",
     'active_subscriptions' => "アクティブな定期購入",
     'inactive_subscriptions' => "非アクティブなサブスクリプション",

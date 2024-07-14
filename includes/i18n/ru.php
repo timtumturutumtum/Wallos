@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Добавить первую подписку",
     'new_subscription' => "Новая подписка",
     'search' => "Поиск",
+    'state' => "Состояние",
     'sort' => "Сортировка",
     'name' => "Имя",
     'last_added' => "Дата создания",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "Отмена",
     "upload_logo" => "Загрузить логотип",
     // Statistics page
+    'cant_convert_currency' => "Вы используете несколько валют в своих подписках. Для получения достоверной и точной статистики, пожалуйста, установите API-ключ Fixer на странице настроек.",
     'general_statistics' => "Общая статистика",
     'active_subscriptions' => "Активные подписки",
     'inactive_subscriptions' => "Неактивные подписки",

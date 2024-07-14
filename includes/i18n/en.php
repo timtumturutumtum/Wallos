@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Add first subscription",
     'new_subscription' => "New Subscription",
     'search' => "Search",
+    'state' => "State",
     'sort' => "Sort",
     'name' => "Name",
     'last_added' => "Last Added",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "Cancel",
     "upload_logo" => "Upload Logo",
     // Statistics page
+    'cant_convert_currency' => "You are using multiple currencies on your subscriptions. To have valid and accurate statistics, please set a Fixer API Key on the settings page.",
     'general_statistics' => "General Statistics",
     'active_subscriptions' => "Active Subscriptions",
     'inactive_subscriptions' => "Inactive Subscriptions",

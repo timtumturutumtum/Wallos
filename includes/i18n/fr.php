@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Ajoutez le premier abonnement",
     'new_subscription' => "Nouvel abonnement",
     'search' => "Rechercher",
+    'state' => "État",
     'sort' => "Trier",
     'name' => "Nom",
     'last_added' => "Dernier ajouté",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "Annuler",
     "upload_logo" => "Télécharger le logo",
     // Page de statistiques
+    'cant_convert_currency' => "Vous utilisez plusieurs devises dans vos abonnements. Pour obtenir des statistiques valides et précises, veuillez définir une clé API Fixer sur la page des paramètres.",
     'general_statistics' => "Statistiques générales",
     'active_subscriptions' => "Abonnements actifs",
     'inactive_subscriptions' => "Abonnements inactifs",

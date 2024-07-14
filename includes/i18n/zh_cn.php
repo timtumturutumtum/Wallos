@@ -44,6 +44,7 @@ $i18n = [
     "add_first_subscription" => "添加首个订阅",
     'new_subscription' => "新订阅",
     'search' => "搜索",
+    'state' => "状态",
     'sort' => "排序",
     'name' => "名称",
     'last_added' => "创建时间",
@@ -94,6 +95,7 @@ $i18n = [
     "upload_logo" => "上传 Logo",
 
     // 统计页面
+    'cant_convert_currency' => "您在订阅中使用了多种货币。要获得有效、准确的统计数据，请在设置页面设置 Fixer API 密钥。",
     'general_statistics' => "总体统计",
     'active_subscriptions' => "活跃订阅",
     'inactive_subscriptions' => "非活动订阅",

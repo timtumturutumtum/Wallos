@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.18.0](https://github.com/ellite/Wallos/compare/v2.17.0...v2.18.0) (2024-07-14)
+
+
+### Features
+
+* disable display options checkbox when fixer key is not set ([5f10525](https://github.com/ellite/Wallos/commit/5f1052584b5ece93ebdcb5bce32210e2643a9f26))
+* display error message on the statistics page when the fixer key is needed but is missing ([5f10525](https://github.com/ellite/Wallos/commit/5f1052584b5ece93ebdcb5bce32210e2643a9f26))
+
+## [2.17.0](https://github.com/ellite/Wallos/compare/v2.16.1...v2.17.0) (2024-07-11)
+
+
+### Features
+
+* add filter and sort dashboard by subscription state ([afff992](https://github.com/ellite/Wallos/commit/afff992878287fdc51229297c455d1f69216c36e))
+
+
+### Bug Fixes
+
+* use the same font for inputs ([a539058](https://github.com/ellite/Wallos/commit/a5390580259105f14154b0d7ce1eb13631c471b1))
+
 ## [2.16.1](https://github.com/ellite/Wallos/compare/v2.16.0...v2.16.1) (2024-07-10)
 
 

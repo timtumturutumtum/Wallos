@@ -44,6 +44,7 @@ $i18n = [
     'add_first_subscription' => 'Aggiungo il tuo primo abbonamento',
     'new_subscription' => 'Nuovo abbonamento',
     'search' => 'Cerca',
+    'state' => "Stato",
     'sort' => 'Ordina',
     'name' => 'Nome',
     'last_added' => 'Ultimo aggiunto',
@@ -94,6 +95,7 @@ $i18n = [
     'upload_logo' => 'Carica logo',
 
     // Statistics
+    'cant_convert_currency' => "Si stanno utilizzando più valute per gli abbonamenti. Per avere statistiche valide e precise, impostare una chiave API Fixer nella pagina delle impostazioni.",
     'general_statistics' => 'Statistiche generali',
     'active_subscriptions' => 'Abbonamenti attivi',
     'inactive_subscriptions' => 'Abbonamenti inattivi',

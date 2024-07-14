@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Adicionar a primeira assinatura",
     'new_subscription' => "Nova assinatura",
     'search' => "Pesquisar",
+    'state' => "Estado",
     'sort' => "Ordenar",
     'name' => "Nome",
     'last_added' => "Última adicionada",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "Cancelar",
     "upload_logo" => "Enviar Logo",
     // Statistics page
+    'cant_convert_currency' => "Você está usando várias moedas em suas assinaturas. Para obter estatísticas válidas e precisas, defina uma chave de API do Fixer na página de configurações.",
     'general_statistics' => "Estatísticas gerais",
     'active_subscriptions' => "Assinaturas ativas",
     'inactive_subscriptions' => "Assinaturas inativas",

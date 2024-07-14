@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "新增第一個訂閱",
     'new_subscription' => "新訂閱",
     'search' => "搜尋",
+    'state' => "狀態",
     'sort' => "排序",
     'name' => "名稱",
     'last_added' => "建立時間",
@@ -88,6 +89,7 @@ $i18n = [
     "cancel" => "取消",
     "upload_logo" => "上傳圖示",
     // 統計頁面
+    'cant_convert_currency' => "您的訂閱使用多種貨幣。為了獲得有效且準確的統計數據，請在設定頁面設定 Fixer API Key。",
     'general_statistics' => "整體統計",
     'active_subscriptions' => "訂閱中",
     'inactive_subscriptions' => "停用訂閱",
