@@ -236,6 +236,14 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <?php
+    // Get latest version from admin table
+    if (!is_null($settings['latest_version'])) {
+        $latestVersion = $settings['latest_version'];
+        $hasUpdate = version_compare($version, $latestVersion) == -1;
+    } else {
+        $hasUpdate = false;
+    }
+
     // find unused upload logos
     
     // Get all logos in the subscriptions table
@@ -298,12 +306,66 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </h2>
         </header>
         <div class="maintenance-tasks">
+            <h3><?= translate('update', $i18n) ?></h3>
+            <div class="form-group">
+                <?php
+                if ($hasUpdate) {
+                    ?>
+                    <div class="updates-list">
+                        <p><?= translate('new_version_available', $i18n) ?>.</p>
+                        <p>
+                            <?= translate('current_version', $i18n) ?>:
+                            <span>
+                                <?= $version ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $version ?>" target="_blank">
+                                    <i class="fa-solid fa-external-link"></i>
+                                </a>
+                            </span>
+                        </p>
+                        <p>
+                            <?= translate('latest_version', $i18n) ?>:
+                            <span>
+                                <?= $latestVersion ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $latestVersion ?>"
+                                    target="_blank">
+                                    <i class="fa-solid fa-external-link"></i>
+                                </a>
+                            </span>
+                        </p>
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <?= translate('on_current_version', $i18n) ?>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="updateNotification" <?= $settings['update_notification'] ? 'checked' : '' ?> onchange="toggleUpdateNotification()"/>
+                <label for="updateNotification"><?= translate('show_update_notification', $i18n) ?></label>
+            </div>
             <h3><?= translate('orphaned_logos', $i18n) ?></h3>
             <div class="form-group-inline">
                 <input type="button" class="button thin mobile-grow" value="<?= translate('delete', $i18n) ?>"
                     id="deleteUnusedLogos" onClick="deleteUnusedLogos()" <?= $logosToDelete == 0 ? 'disabled' : '' ?> />
                 <span class="number-of-logos bold"><?= $logosToDelete ?></span>
                 <?= translate('orphaned_logos', $i18n) ?>
+            </div>
+            <h3><?= translate('cronjobs', $i18n) ?></h3>
+            <div>
+                <div class="inline-row">
+                    <input type="button" value="Check for Updates" class="button tiny mobile-grow" onclick="executeCronJob('checkforupdates')">
+                    <input type="button" value="Send Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendnotifications')">
+                    <input type="button" value="Send Cancellation Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendcancellationnotifications')">
+                    <input type="button" value="Send Password Reset Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendresetpasswordemails')">
+                    <input type="button" value="Send Verification Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendverificationemails')">
+                    <input type="button" value="Update Exchange Rates" class="button tiny mobile-grow" onclick="executeCronJob('updateexchange')">
+                    <input type="button" value="Update Next Payments" class="button tiny mobile-grow" onclick="executeCronJob('updatenextpayment')">
+                </div>
+                <div class="inline-row">
+                    <textarea id="cronjobResult" class="thin" readonly></textarea>
+                </div>
             </div>
         </div>
     </section>
