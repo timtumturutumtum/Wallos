@@ -65,6 +65,7 @@ function saveNotificationsEmailButton() {
     const smtpUsername = document.getElementById("smtpusername").value;
     const smtpPassword = document.getElementById("smtppassword").value;
     const fromEmail = document.getElementById("fromemail").value;
+    const otherEmails = document.getElementById("otheremails").value;
   
     const data = {
       enabled: enabled,
@@ -73,7 +74,8 @@ function saveNotificationsEmailButton() {
       encryption: encryption,
       smtpusername: smtpUsername,
       smtppassword: smtpPassword,
-      fromemail: fromEmail
+      fromemail: fromEmail,
+      otheremails: otherEmails
     };
 
     makeFetchCall('endpoints/notifications/saveemailnotifications.php', data, button);

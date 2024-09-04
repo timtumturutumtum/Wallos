@@ -42,6 +42,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $email['smtpUsername'] = $row["smtp_username"];
         $email['smtpPassword'] = $row["smtp_password"];
         $email['fromEmail'] = $row["from_email"] ? $row["from_email"] : "wallos@wallosapp.com";
+        $email['otherEmails'] = $row["other_emails"];
     }
 
     // Check if Discord notifications are enabled and get the settings
@@ -215,6 +216,20 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $mail->setFrom($email['fromEmail'], 'Wallos App');
                     $mail->addAddress($emailaddress, $name);
+
+                    if (!empty($email['otherEmails'])) {
+                        $list = explode(';', $email['otherEmails']);
+
+                        // Avoid duplicate emails
+                        $list = array_unique($list);
+                        $list = array_filter($list, function ($value) use ($emailaddress) {
+                            return $value !== $emailaddress;
+                        });
+
+                        foreach($list as $value) {
+                            $mail->addCC(trim($value));
+                        }
+                    }
 
                     $mail->Subject = 'Wallos Cancellation Notification';
                     $mail->Body = $message;
