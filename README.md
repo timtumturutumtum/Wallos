@@ -10,6 +10,7 @@ Wallos: Open-Source Personal Subscription Tracker
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Demo](#demo)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
     - [Baremetal](#baremetal)
@@ -20,10 +21,11 @@ Wallos: Open-Source Personal Subscription Tracker
     - [Docker](#docker-1)
     - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
+- [API Documentation](#api-documentation)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
   - [Translations](#translations)
-- [Screenshots](#screenshots)
 - [License](#license)
 - [Links](#links)
 
@@ -45,6 +47,17 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Statistics: Another perspective into your spendings.
 - Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
+
+## Demo
+
+If you want to try Wallos, a demo is available at [https://demo.wallosapp.com](https://demo.wallosapp.com).  
+The database is reset every 2 hours.  
+To access the demo use the following credentials:
+
+```python
+Username: demo  
+Password: demo
+```
 
 ## Getting Started
 
@@ -128,7 +141,7 @@ Just open the browser and open `ip:port` of the machine running wallos.
 On the first time you run wallos a user account must be created.  
 Go to settings and personalise your Avatar and add members of your household. While there add / remove any categories and currencies.  
 Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.  
-If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your prefered one.  
+If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your preferred one.  
 
 ## Screenshots
 
@@ -143,6 +156,10 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ![Screenshot](screenshots/wallos-form.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
+
+## API Documentation
+
+Wallos provides a comprehensive API that allows you to interact with the application programmatically. The API documentation is available at [https://api.wallosapp.com/](https://api.wallosapp.com/).
 
 ## Contributing
 
@@ -159,10 +176,10 @@ I welcome contributions from the community and look forward to working with you 
 ### Translations
 
 If you want to contribute with a translation of wallos:
-- Add your language code to `includes/i18n/languages.php` in the format `"en" => "English"`. Please use the original language name and not the english translation.
-- Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => "Português".
+- Add your language code to `includes/i18n/languages.php` in the format `"en" => ["name" => "English", "dir" => "ltr"],`. Please use the original language name and not the english translation.
+- Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => ["name" => "Português", "dir" => "ltr"],.
 - Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
-- Create a copy of the file `scripts/i18n/en.js` and rename it to the language code you used above. Example: pt.js for "pt" => "Português".
+- Create a copy of the file `scripts/i18n/en.js` and rename it to the language code you used above. Example: pt.js for "pt" => ["name" => "Português", "dir" => "ltr"],.
 - Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
 
 ## License
@@ -178,5 +195,5 @@ I strongly believe in the importance of open source software and the collaborati
 ## Links
 
 - The author: [henrique.pt](https://henrique.pt)
-- Wallos Landinpage: [wallosapp.com](https://wallosapp.com)
+- Wallos Landingpage: [wallosapp.com](https://wallosapp.com)
 - Join the conversation: [Discord Server](https://discord.gg/anex9GUrPW)

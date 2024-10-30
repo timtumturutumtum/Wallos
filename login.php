@@ -20,6 +20,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     exit();
 }
 
+$demoMode = getenv('DEMO_MODE');
+
+$cookieExpire = time() + (30 * 24 * 60 * 60);
+
 // Check if login is disabled
 $adminQuery = "SELECT login_disabled FROM admin";
 $adminResult = $db->query($adminQuery);
@@ -50,11 +54,17 @@ if ($adminRow['login_disabled'] == 1) {
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $main_currency;
         $_SESSION['userId'] = $userId;
-        $cookieExpire = time() + (30 * 24 * 60 * 60);
         setcookie('language', $language, [
             'expires' => $cookieExpire,
             'samesite' => 'Strict'
         ]);
+
+        if (!isset($_COOKIE['sortOrder'])) {
+            setcookie('sortOrder', 'next_payment', [
+                'expires' => $cookieExpire,
+                'samesite' => 'Strict'
+            ]);
+        }
 
         $query = "SELECT color_theme FROM settings";
         $stmt = $db->prepare($query);
@@ -74,6 +84,14 @@ if ($adminRow['login_disabled'] == 1) {
         $db->close();
         header("Location: .");
     }
+}
+
+if (isset($_SESSION['totp_user_id'])) {
+    unset($_SESSION['totp_user_id']);
+}
+
+if (isset($_SESSION['token'])) {
+    unset($_SESSION['token']);
 }
 
 
@@ -116,32 +134,20 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $stmt = $db->prepare($query);
             $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
             $result = $stmt->execute();
-            $verificationRow = $result->fetchArray(SQLITE3_ASSOC);
+            $verificationMissing = $result->fetchArray(SQLITE3_ASSOC);
 
-            if ($verificationRow) {
+            // Check if the user has 2fa enabled
+            $query = "SELECT totp_enabled FROM user WHERE id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
+            $totpEnabled = $result->fetchArray(SQLITE3_ASSOC);
+
+            if ($verificationMissing) {
                 $userEmailWaitingVerification = true;
                 $loginFailed = true;
             } else {
-                $_SESSION['username'] = $username;
-                $_SESSION['loggedin'] = true;
-                $_SESSION['main_currency'] = $main_currency;
-                $_SESSION['userId'] = $userId;
-                $cookieExpire = time() + (30 * 24 * 60 * 60);
-                setcookie('language', $language, [
-                    'expires' => $cookieExpire,
-                    'samesite' => 'Strict'
-                ]);
-
                 if ($rememberMe) {
-                    $query = "SELECT color_theme FROM settings";
-                    $stmt = $db->prepare($query);
-                    $result = $stmt->execute();
-                    $settings = $result->fetchArray(SQLITE3_ASSOC);
-                    setcookie('colorTheme', $settings['color_theme'], [
-                        'expires' => $cookieExpire,
-                        'samesite' => 'Strict'
-                    ]);
-
                     $token = bin2hex(random_bytes(32));
                     $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
                     $addLoginTokensStmt = $db->prepare($addLoginTokens);
@@ -155,6 +161,41 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                         'samesite' => 'Strict'
                     ]);
                 }
+
+                // Send to totp page if 2fa is enabled
+                if ($totpEnabled['totp_enabled'] == 1) {
+                    $_SESSION['totp_user_id'] = $userId;
+                    $db->close();
+                    header("Location: totp.php");
+                    exit();
+                }
+
+                $_SESSION['username'] = $username;
+                $_SESSION['loggedin'] = true;
+                $_SESSION['main_currency'] = $main_currency;
+                $_SESSION['userId'] = $userId;
+                setcookie('language', $language, [
+                    'expires' => $cookieExpire,
+                    'samesite' => 'Strict'
+                ]);
+
+                if (!isset($_COOKIE['sortOrder'])) {
+                    setcookie('sortOrder', 'next_payment', [
+                        'expires' => $cookieExpire,
+                        'samesite' => 'Strict'
+                    ]);
+                }
+
+                $query = "SELECT color_theme FROM settings WHERE user_id = :userId";
+                $stmt = $db->prepare($query);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                $result = $stmt->execute();
+                $settings = $result->fetchArray(SQLITE3_ASSOC);
+                setcookie('colorTheme', $settings['color_theme'], [
+                    'expires' => $cookieExpire,
+                    'samesite' => 'Strict'
+                ]);
+
                 $db->close();
                 header("Location: .");
                 exit();
@@ -244,10 +285,16 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
                     <label for="password"><?= translate('password', $i18n) ?>:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <div class="form-group-inline">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
-                </div>
+                <?php
+                if (!$demoMode) {
+                    ?>
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
+                    </div>
+                    <?php
+                }
+                ?>
                 <div class="form-group">
                     <input type="submit" value="<?= translate('login', $i18n) ?>">
                 </div>

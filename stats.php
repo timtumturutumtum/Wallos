@@ -94,9 +94,10 @@ $mostExpensiveSubscription['price'] = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
 $totalSavingsPerMonth = 0;
+$totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive FROM subscriptions";
+$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -140,6 +141,8 @@ if ($result) {
     $subscriptions[] = $row;
   }
   if (isset($subscriptions)) {
+    $replacementSubscriptions = array();
+
     foreach ($subscriptions as $subscription) {
       $name = $subscription['name'];
       $price = $subscription['price'];
@@ -155,6 +158,7 @@ if ($result) {
       $categoryId = $subscription['category_id'];
       $paymentMethodId = $subscription['payment_method_id'];
       $inactive = $subscription['inactive'];
+      $replacementSubscriptionId = $subscription['replacement_subscription_id'];
       $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
 
@@ -192,9 +196,28 @@ if ($result) {
       } else {
         $inactiveSubscriptions++;
         $totalSavingsPerMonth += $price;
+
+        // Check if it has a replacement subscription and if it was not already counted
+        if ($replacementSubscriptionId && !in_array($replacementSubscriptionId, $replacementSubscriptions)) {
+          $query = "SELECT price, currency_id, cycle, frequency FROM subscriptions WHERE id = :replacementSubscriptionId";
+          $stmt = $db->prepare($query);
+          $stmt->bindValue(':replacementSubscriptionId', $replacementSubscriptionId, SQLITE3_INTEGER);
+          $result = $stmt->execute();
+          $replacementSubscription = $result->fetchArray(SQLITE3_ASSOC);
+          if ($replacementSubscription) {
+            $replacementSubscriptionPrice = getPriceConverted($replacementSubscription['price'], $replacementSubscription['currency_id'], $db, $userId);
+            $replacementSubscriptionPrice = getPricePerMonth($replacementSubscription['cycle'], $replacementSubscription['frequency'], $replacementSubscriptionPrice);
+            $totalCostsInReplacementsPerMonth += $replacementSubscriptionPrice;
+          }
+        }
+
+        $replacementSubscriptions[] = $replacementSubscriptionId;
       }
 
     }
+
+    // Subtract the total cost of replacement subscriptions from the total savings
+    $totalSavingsPerMonth -= $totalCostsInReplacementsPerMonth;
 
     // Calculate yearly price
     $totalCostPerYear = $totalCostPerMonth * 12;
@@ -234,7 +257,6 @@ if ($usesMultipleCurrencies) {
   }
 }
 
-$numberOfElements = 6;
 ?>
 <section class="contain">
   <?php
@@ -390,7 +412,6 @@ $numberOfElements = 6;
     </div>
     <?php
     if (isset($budgetUsed)) {
-      $numberOfElements += 1;
       ?>
       <div class="statistic">
         <span><?= number_format($budgetUsed, 2) ?>%</span>
@@ -399,7 +420,6 @@ $numberOfElements = 6;
       <?php
     }
     if (isset($budgetLeft)) {
-      $numberOfElements += 1;
       ?>
       <div class="statistic">
         <span><?= CurrencyFormatter::format($budgetLeft, $code) ?></span>
@@ -408,7 +428,6 @@ $numberOfElements = 6;
       <?php
     }
     if (isset($overBudgetAmount)) {
-      $numberOfElements += 1;
       ?>
       <div class="statistic">
         <span><?= CurrencyFormatter::format($overBudgetAmount, $code) ?></span>
@@ -417,27 +436,24 @@ $numberOfElements = 6;
       <?php
     }
     if ($inactiveSubscriptions > 0) {
-      $numberOfElements += 3;
       ?>
       <div class="statistic">
         <span><?= $inactiveSubscriptions ?></span>
         <div class="title"><?= translate('inactive_subscriptions', $i18n) ?></div>
       </div>
-      <div class="statistic">
-        <span><?= CurrencyFormatter::format($totalSavingsPerMonth, $code) ?></span>
-        <div class="title"><?= translate('monthly_savings', $i18n) ?></div>
-      </div>
-      <div class="statistic">
-        <span><?= CurrencyFormatter::format($totalSavingsPerMonth * 12, $code) ?></span>
-        <div class="title"><?= translate('yearly_savings', $i18n) ?></div>
-      </div>
       <?php
-    }
-
-    if (($numberOfElements + 1) % 3 == 0) {
-      ?>
-      <div class="statistic empty"></div>
-      <?php
+      if ($totalSavingsPerMonth > 0) {
+        ?>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($totalSavingsPerMonth, $code) ?></span>
+          <div class="title"><?= translate('monthly_savings', $i18n) ?></div>
+        </div>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($totalSavingsPerMonth * 12, $code) ?></span>
+          <div class="title"><?= translate('yearly_savings', $i18n) ?></div>
+        </div>
+        <?php
+      }
     }
     ?>
   </div>

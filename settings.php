@@ -1,132 +1,28 @@
 <?php
 require_once 'includes/header.php';
+
+$currencies = array();
+$query = "SELECT * FROM currencies WHERE user_id = :userId";
+$query = $db->prepare($query);
+$query->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $query->execute();
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $currencyId = $row['id'];
+    $currencies[$currencyId] = $row;
+}
+$userData['currency_symbol'] = "€";
+
 ?>
 
 <script src="scripts/libs/sortable.min.js"></script>
+<script src="scripts/libs/qrcode.min.js"></script>
 <style>
     .logo-preview:after {
         content: '<?= translate('upload_logo', $i18n) ?>';
     }
 </style>
 <section class="contain settings">
-    <section class="account-section">
-        <header>
-            <h2><?= translate('user_details', $i18n) ?></h2>
-        </header>
-        <form action="endpoints/user/saveuser.php" method="post" id="userForm" enctype="multipart/form-data">
-            <div class="user-form">
-                <div class="fields">
-                    <div>
-                        <div class="user-avatar">
-                            <img src="<?= $userData['avatar'] ?>" alt="avatar" class="avatar" id="avatarImg"
-                                onClick="toggleAvatarSelect()" />
-                            <span class="edit-avatar" onClick="toggleAvatarSelect()" title="Change Avatar">
-                                <i class="fa-solid fa-pencil"></i>
-                            </span>
-                        </div>
-
-                        <input type="hidden" name="avatar" value="<?= $userData['avatar'] ?>" id="avatarUser" />
-                        <div class="avatar-select" id="avatarSelect">
-                            <div class="avatar-list">
-                                <?php foreach (scandir('images/avatars') as $index => $image): ?>
-                                    <?php if (!str_starts_with($image, '.')): ?>
-                                        <img src="images/avatars/<?= $image ?>" alt="<?= $image ?>" class="avatar-option"
-                                            data-src="images/avatars/<?= $image ?>">
-                                    <?php endif ?>
-                                <?php endforeach ?>
-                                <?php foreach (scandir('images/uploads/logos/avatars') as $index => $image): ?>
-                                    <?php if (!str_starts_with($image, '.')): ?>
-                                        <div class="avatar-container" data-src="<?= $image ?>">
-                                            <img src="images/uploads/logos/avatars/<?= $image ?>" alt="<?= $image ?>"
-                                                class="avatar-option" data-src="images/uploads/logos/avatars/<?= $image ?>">
-                                            <div class="remove-avatar" onclick="deleteAvatar('<?= $image ?>')"
-                                                title="Delete avatar">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
-                                <?php endforeach ?>
-                                <label for="profile_pic" class="add-avatar"
-                                    title="<?= translate('upload_avatar', $i18n) ?>">
-                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                </label>
-                            </div>
-                            <input type="file" id="profile_pic" class="hidden-input" name="profile_pic"
-                                accept="image/jpeg, image/png, image/gif, image/webp"
-                                onChange="successfulUpload(this, '<?= addslashes(translate('file_type_error', $i18n)) ?>')" />
-                        </div>
-                    </div>
-                    <div class="grow">
-                        <div class="form-group">
-                            <label for="username"><?= translate('username', $i18n) ?>:</label>
-                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>"
-                                disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="email"><?= translate('email', $i18n) ?>:</label>
-                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password"><?= translate('password', $i18n) ?>:</label>
-                            <input type="password" id="password" name="password">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
-                            <input type="password" id="confirm_password" name="confirm_password">
-                        </div>
-                        <?php
-                        $currencies = array();
-                        $query = "SELECT * FROM currencies WHERE user_id = :userId";
-                        $query = $db->prepare($query);
-                        $query->bindValue(':userId', $userId, SQLITE3_INTEGER);
-                        $result = $query->execute();
-                        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-                            $currencyId = $row['id'];
-                            $currencies[$currencyId] = $row;
-                        }
-                        $userData['currency_symbol'] = "€";
-                        ?>
-                        <div class="form-group">
-                            <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
-                            <select id="currency" name="main_currency" placeholder="Currency">
-                                <?php
-                                foreach ($currencies as $currency) {
-                                    $selected = "";
-                                    if ($currency['id'] == $userData['main_currency']) {
-                                        $selected = "selected";
-                                        $userData['currency_symbol'] = $currency['symbol'];
-                                    }
-                                    ?>
-                                    <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="language"><?= translate('language', $i18n) ?>:</label>
-                            <select id="language" name="language" placeholder="Language">
-                                <?php
-                                foreach ($languages as $code => $language) {
-                                    $selected = ($code === $lang) ? 'selected' : '';
-                                    ?>
-                                    <option value="<?= $code ?>" <?= $selected ?>><?= $language['name'] ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit"
-                        class="thin mobile-grow" />
-                </div>
-            </div>
-        </form>
-
-    </section>
-
+    
     <section class="account-section">
         <header>
             <h2><?= translate('monthly_budget', $i18n) ?></h2>
@@ -141,7 +37,6 @@ require_once 'includes/header.php';
                 <p>
                     <i class="fa-solid fa-circle-info"></i> <?= translate('budget_info', $i18n) ?>
                 </p>
-                <p>
             </div>
         </div>
     </section>
@@ -338,6 +233,7 @@ require_once 'includes/header.php';
         $notificationsNtfy['host'] = $row['host'];
         $notificationsNtfy['topic'] = $row['topic'];
         $notificationsNtfy['headers'] = $row['headers'];
+        $notificationsNtfy['ignore_ssl'] = $row['ignore_ssl'];
         $rowCount++;
     }
 
@@ -346,6 +242,7 @@ require_once 'includes/header.php';
         $notificationsNtfy['host'] = "";
         $notificationsNtfy['topic'] = "";
         $notificationsNtfy['headers'] = "";
+        $notificationsNtfy['ignore_ssl'] = 0;
     }
 
     // Webhook notifications
@@ -361,6 +258,7 @@ require_once 'includes/header.php';
         $notificationsWebhook['headers'] = $row['headers'];
         $notificationsWebhook['payload'] = $row['payload'];
         $notificationsWebhook['iterator'] = $row['iterator'];
+        $notificationsWebhook['ignore_ssl'] = $row['ignore_ssl'];
         $rowCount++;
     }
 
@@ -380,12 +278,15 @@ require_once 'includes/header.php';
             "currency": "{{subscription_currency}}",
             "category": "{{subscription_category}}",
             "date": "{{subscription_date}}",
-            "payer": "{{subscription_payer}}"
-            "days": "{{subscription_days_until_payment}}"
+            "payer": "{{subscription_payer}}",
+            "days": "{{subscription_days_until_payment}}",
+            "notes": "{{subscription_notes}}",
+            "url": "{{subscription_url}}"
         }
     ]
 
 }';
+        $notificationsWebhook['ignore_ssl'] = 0;
     }
 
     // Gotify notifications
@@ -399,6 +300,7 @@ require_once 'includes/header.php';
         $notificationsGotify['enabled'] = $row['enabled'];
         $notificationsGotify['url'] = $row['url'];
         $notificationsGotify['token'] = $row['token'];
+        $notificationsGotify['ignore_ssl'] = $row['ignore_ssl'];
         $rowCount++;
     }
 
@@ -406,6 +308,7 @@ require_once 'includes/header.php';
         $notificationsGotify['enabled'] = 0;
         $notificationsGotify['url'] = "";
         $notificationsGotify['token'] = "";
+        $notificationsGotify['ignore_ssl'] = 0;
     }
 
     ?>
@@ -483,7 +386,7 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('from_email', $i18n) ?>"
                             value="<?= $notificationsEmail['from_email'] ?>" />
                     </div>
-                    <label for="otheremails" ><?= translate('send_to_other_emails', $i18n) ?></label>
+                    <label for="otheremails"><?= translate('send_to_other_emails', $i18n) ?></label>
                     <div class="form-group-inline">
                         <input type="text" name="otheremails" id="otheremails"
                             placeholder="<?= translate('other_emails_placeholder', $i18n) ?>"
@@ -562,6 +465,11 @@ require_once 'includes/header.php';
                         <input type="text" name="gotifytoken" id="gotifytoken"
                             placeholder="<?= translate('token', $i18n) ?>"
                             value="<?= $notificationsGotify['token'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="gotifyignoressl" name="gotifyignoressl"
+                            <?= $notificationsGotify['ignore_ssl'] ? "checked" : "" ?>>
+                        <label for="gotifyignoressl"><?= translate('ignore_ssl_errors', $i18n) ?></label>
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -660,6 +568,11 @@ require_once 'includes/header.php';
                         <textarea class="thin" name="ntfyheaders" id="ntfyheaders"
                             placeholder="<?= translate('custom_headers', $i18n) ?>"><?= $notificationsNtfy['headers'] ?></textarea>
                     </div>
+                    <div class="form-grpup-inline">
+                        <input type="checkbox" id="ntfyignoressl" name="ntfyignoressl"
+                            <?= $notificationsNtfy['ignore_ssl'] ? "checked" : "" ?>>
+                        <label for="ntfyignoressl"><?= translate('ignore_ssl_errors', $i18n) ?></label>
+                    </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
                             value="<?= translate('test', $i18n) ?>" id="testNotificationsNtfy"
@@ -710,6 +623,11 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('webhook_iterator_key', $i18n) ?>"
                             value="<?= $notificationsWebhook['iterator'] ?>" />
                     </div>
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="webhookignoressl" name="webhookignoressl"
+                            <?= $notificationsWebhook['ignore_ssl'] ? "checked" : "" ?>>
+                        <label for="webhookignoressl"><?= translate('ignore_ssl_errors', $i18n) ?></label>
+                    </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
                             value="<?= translate('test', $i18n) ?>" id="testNotificationsWebhook"
@@ -722,7 +640,7 @@ require_once 'includes/header.php';
                             <i class="fa-solid fa-circle-info"></i> <?= translate('variables_available', $i18n) ?>:
                             {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}},
                             {{subscription_category}}, {{subscription_date}}, {{subscription_payer}},
-                            {{subscription_days_until_payment}}
+                            {{subscription_days_until_payment}}, {{subscription_notes}}, {{subscription_url}}
                         </p>
                         <p>
                     </div>
@@ -942,7 +860,7 @@ require_once 'includes/header.php';
         <div class="account-fixer">
             <div class="form-group">
                 <input type="text" name="fixer-key" id="fixerKey" value="<?= $apiKey ?>"
-                    placeholder="<?= translate('api_key', $i18n) ?>">
+                    placeholder="<?= translate('api_key', $i18n) ?>" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
             </div>
             <div class="form-group">
                 <label for="fixerProvider"><?= translate('provider', $i18n) ?>:</label>
@@ -1193,19 +1111,25 @@ require_once 'includes/header.php';
                         onClick="saveCustomColors()" class="buton thin mobile-grow" id="save-colors">
                 </div>
             </div>
-            <div>
-                <h3><?= translate('custom_css', $i18n) ?></h3>
-                <div class="form-group">
-                    <div class="form-group-inline">
-                        <textarea name="customCss" id="customCss" placeholder="<?= translate('custom_css', $i18n) ?>"
-                            class="thin"><?= $settings['customCss'] ?? "" ?></textarea>
-                    </div>
-                    <div class="form-group-inline">
-                        <input type="button" value="<?= translate('save_custom_css', $i18n) ?>"
-                            onClick="saveCustomCss()" class="buton thin mobile-grow" id="save-css">
+            <?php
+            if (!$demoMode) {
+                ?>
+                <div>
+                    <h3><?= translate('custom_css', $i18n) ?></h3>
+                    <div class="form-group">
+                        <div class="form-group-inline">
+                            <textarea name="customCss" id="customCss" placeholder="<?= translate('custom_css', $i18n) ?>"
+                                class="thin"><?= $settings['customCss'] ?? "" ?></textarea>
+                        </div>
+                        <div class="form-group-inline">
+                            <input type="button" value="<?= translate('save_custom_css', $i18n) ?>"
+                                onClick="saveCustomCss()" class="buton thin mobile-grow" id="save-css">
+                        </div>
                     </div>
                 </div>
-            </div>
+                <?php
+            }
+            ?>
     </section>
 
     <section class="account-section">
@@ -1235,17 +1159,20 @@ require_once 'includes/header.php';
             </div>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="showoriginalprice" name="showoriginalprice" onChange="setShowOriginalPrice()" <?php if ($settings['show_original_price'])
-                        echo 'checked'; ?>>
+                    <input type="checkbox" id="showoriginalprice" name="showoriginalprice"
+                        onChange="setShowOriginalPrice()" <?php if ($settings['show_original_price'])
+                            echo 'checked'; ?>>
                     <label for="showoriginalprice"><?= translate('show_original_price', $i18n) ?></label>
                 </div>
             </div>
             <h3><?= translate('disabled_subscriptions', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom" onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
-                        echo 'checked'; ?>>
-                    <label for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
+                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom"
+                        onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
+                            echo 'checked'; ?>>
+                    <label
+                        for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
                 </div>
             </div>
             <div>
@@ -1271,48 +1198,20 @@ require_once 'includes/header.php';
                     <label for="removebackground"><?= translate('remove_background', $i18n) ?></label>
                 </div>
             </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="mobilenavigation" name="mobilenavigation"
+                        onChange="setMobileNavigation()" <?php if ($settings['mobile_nav'])
+                            echo 'checked'; ?>>
+                    <label for="mobilenavigation"><?= translate('use_mobile_navigation_bar', $i18n) ?></label>
+                </div>
+            </div>
         </div>
         <div class="settings-notes">
             <p>
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('experimental_info', $i18n) ?>
             </p>
-        </div>
-    </section>
-
-    <section class="account-section">
-        <header>
-            <h2><?= translate('account', $i18n) ?></h2>
-        </header>
-        <div class="account-list">
-            <div>
-                <h3><?= translate('export_subscriptions', $i18n) ?></h3>
-                <div class="form-group-inline">
-                    <input type="button" value="<?= translate('export_as_json', $i18n) ?>" onClick="exportAsJson()"
-                        class="secondary-button thin mobile-grow" id="export-json">
-                    <input type="button" value="<?= translate('export_as_csv', $i18n) ?>" onClick="exportAsCsv()"
-                        class="secondary-button thin mobile-grow" id="export-csv">
-                </div>
-            </div>
-        </div>
-        <div>
-            <?php
-            if ($userId != 1) {
-                ?>
-                <h3><?= translate('danger_zone', $i18n) ?></h3>
-                <div class="form-group-inline">
-                    <input type="button" value="<?= translate('delete_account', $i18n) ?>" onClick="deleteAccount(<?= $userId ?>)"
-                        class="warning-button thin mobile-grow" id="delete-account">
-                </div>
-                <div class="settings-notes">
-                    <p>
-                        <i class="fa-solid fa-circle-info"></i>
-                        <?= translate('delete_account_info', $i18n) ?>
-                    </p>
-                </div>
-                <?php
-            }
-            ?>
         </div>
     </section>
 

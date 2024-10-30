@@ -10,7 +10,7 @@ require_once 'includes/header.php';
         </header>
         <div class="credits-list">
             <h3><?= translate('about', $i18n) ?></h3>
-            <p>Wallos <?= $version ?></p>
+            <p>Wallos <?= $version ?> <?= $demoMode ? "Demo" : "" ?></p>
             <p><?= translate('license', $i18n) ?>:
                 <span>
                     GPLv3
@@ -65,6 +65,24 @@ require_once 'includes/header.php';
                 <span>
                     https://www.chartjs.org/
                     <a href="https://www.chartjs.org/" target="_blank" title="<?= translate('external_url', $i18n) ?>">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </span>
+            </p>
+            <p>
+                QRCode.js:
+                <span>
+                    https://github.com/davidshimjs/qrcodejs
+                    <a href="https://github.com/davidshimjs/qrcodejs" target="_blank" title="<?= translate('external_url', $i18n) ?>">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </span>
+            </p>
+            <p>
+                Icons by icons8:
+                <span>
+                    https://icons8.com/
+                    <a href="https://icons8.com/" target="_blank" title="<?= translate('external_url', $i18n) ?>">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </span>

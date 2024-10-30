@@ -18,89 +18,90 @@ $params = array();
 
 if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   $sort = $_COOKIE['sortOrder'] ?? 'next_payment';
-  $sortOrder = $sort;
-  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
-  $order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
-
-  if ($sort == "alphanumeric") {
-    $sort = "name";
-  }
-
-  if (!in_array($sort, $allowedSortCriteria)) {
-    $sort = "next_payment";
-  }
-
-  $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
-
-  if (isset($_GET['member'])) {
-    $memberIds = explode(',', $_GET['member']);
-    $placeholders = array_map(function ($key) {
-      return ":member{$key}";
-    }, array_keys($memberIds));
-
-    $sql .= " AND payer_user_id IN (" . implode(',', $placeholders) . ")";
-
-    foreach ($memberIds as $key => $memberId) {
-      $params[":member{$key}"] = $memberId;
-    }
-  }
-
-  if (isset($_GET['category'])) {
-    $categoryIds = explode(',', $_GET['category']);
-    $placeholders = array_map(function ($key) {
-      return ":category{$key}";
-    }, array_keys($categoryIds));
-
-    $sql .= " AND category_id IN (" . implode(',', $placeholders) . ")";
-
-    foreach ($categoryIds as $key => $categoryId) {
-      $params[":category{$key}"] = $categoryId;
-    }
-  }
-
-  if (isset($_GET['payment'])) {
-    $paymentIds = explode(',', $_GET['payment']);
-    $placeholders = array_map(function ($key) {
-      return ":payment{$key}";
-    }, array_keys($paymentIds));
-
-    $sql .= " AND payment_method_id IN (" . implode(',', $placeholders) . ")";
-
-    foreach ($paymentIds as $key => $paymentId) {
-      $params[":payment{$key}"] = $paymentId;
-    }
-  }
-
-  if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
-    if (isset($_GET['state']) && $_GET['state'] != "") {
-      $sql .= " AND inactive = :inactive";
-      $params[':inactive'] = $_GET['state'];
-    }
-  }
-
-  $orderByClauses = [];
-
-  if ($settings['disabledToBottom'] === 'true') {
-    if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
-      $orderByClauses[] = "$sort $order";
-      $orderByClauses[] = "inactive ASC";
-    } else {
-      $orderByClauses[] = "inactive ASC";
-      $orderByClauses[] = "$sort $order";
-    }
-  } else {
-    $orderByClauses[] = "$sort $order";
-    if ($sort != "inactive") {
-      $orderByClauses[] = "inactive ASC";
-    }
-  }
-
-  if ($sort != "next_payment") {
-    $orderByClauses[] = "next_payment ASC";
-  }
-
-  $sql .= " ORDER BY " . implode(", ", $orderByClauses);
 }
+
+$sortOrder = $sort;
+$allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
+$order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
+
+if ($sort == "alphanumeric") {
+  $sort = "name";
+}
+
+if (!in_array($sort, $allowedSortCriteria)) {
+  $sort = "next_payment";
+}
+
+$sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
+
+if (isset($_GET['member'])) {
+  $memberIds = explode(',', $_GET['member']);
+  $placeholders = array_map(function ($key) {
+    return ":member{$key}";
+  }, array_keys($memberIds));
+
+  $sql .= " AND payer_user_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($memberIds as $key => $memberId) {
+    $params[":member{$key}"] = $memberId;
+  }
+}
+
+if (isset($_GET['category'])) {
+  $categoryIds = explode(',', $_GET['category']);
+  $placeholders = array_map(function ($key) {
+    return ":category{$key}";
+  }, array_keys($categoryIds));
+
+  $sql .= " AND category_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($categoryIds as $key => $categoryId) {
+    $params[":category{$key}"] = $categoryId;
+  }
+}
+
+if (isset($_GET['payment'])) {
+  $paymentIds = explode(',', $_GET['payment']);
+  $placeholders = array_map(function ($key) {
+    return ":payment{$key}";
+  }, array_keys($paymentIds));
+
+  $sql .= " AND payment_method_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($paymentIds as $key => $paymentId) {
+    $params[":payment{$key}"] = $paymentId;
+  }
+}
+
+if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
+  if (isset($_GET['state']) && $_GET['state'] != "") {
+    $sql .= " AND inactive = :inactive";
+    $params[':inactive'] = $_GET['state'];
+  }
+}
+
+$orderByClauses = [];
+
+if ($settings['disabledToBottom'] === 'true') {
+  if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
+    $orderByClauses[] = "$sort $order";
+    $orderByClauses[] = "inactive ASC";
+  } else {
+    $orderByClauses[] = "inactive ASC";
+    $orderByClauses[] = "$sort $order";
+  }
+} else {
+  $orderByClauses[] = "$sort $order";
+  if ($sort != "inactive") {
+    $orderByClauses[] = "inactive ASC";
+  }
+}
+
+if ($sort != "next_payment") {
+  $orderByClauses[] = "next_payment ASC";
+}
+
+$sql .= " ORDER BY " . implode(", ", $orderByClauses);
 
 $stmt = $db->prepare($sql);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
@@ -108,7 +109,7 @@ $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
 if (!empty($params)) {
   foreach ($params as $key => $value) {
-      $stmt->bindValue($key, $value, SQLITE3_INTEGER);
+    $stmt->bindValue($key, $value, SQLITE3_INTEGER);
   }
 }
 
@@ -142,6 +143,15 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       }
     }
   }
+
+  if ($demoMode) {
+    ?>
+    <div class="demo-banner">
+      Running in <b>Demo Mode</b>, certain actions and settings are disabled.<br>
+      The database will be reset every 120 minutes.
+    </div>
+    <?php
+  }
   ?>
 
   <header class="<?= $headerClass ?>" id="main-actions">
@@ -154,6 +164,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <input type="text" autocomplete="off" name="search" id="search" placeholder="<?= translate('search', $i18n) ?>"
           onkeyup="searchSubscriptions()" />
         <span class="fa-solid fa-magnifying-glass search-icon"></span>
+        <span class="fa-solid fa-xmark clear-search" onClick="clearSearch()"></span>
       </div>
 
       <div class="filtermenu on-dashboard">
@@ -323,7 +334,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $paymentMethodId = $subscription['payment_method_id'];
       $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
       $currencyId = $subscription['currency_id'];
-      $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
+      $next_payment_timestamp = strtotime($subscription['next_payment']);
+      $formatted_date = $formatter->format($next_payment_timestamp);
+      $print[$id]['next_payment'] = $formatted_date;
       $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
       $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
       $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
@@ -334,6 +347,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $print[$id]['inactive'] = $subscription['inactive'];
       $print[$id]['url'] = $subscription['url'];
       $print[$id]['notes'] = $subscription['notes'];
+      $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
 
       if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
         $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
@@ -506,9 +520,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       </select>
     </div>
 
-    <div class="form-group-inline">
+    <div class="form-group-inline grow">
       <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
-      <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
+      <label for="notifications" class="grow"><?= translate('enable_notifications', $i18n) ?></label>
     </div>
 
     <div class="form-group">
@@ -542,9 +556,35 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       <input type="text" id="notes" name="notes" placeholder="<?= translate('notes', $i18n) ?>">
     </div>
 
-    <div class="form-group-inline">
-      <input type="checkbox" id="inactive" name="inactive">
-      <label for="inactive"><?= translate('inactive', $i18n) ?></label>
+    <div class="form-group">
+      <div class="inline grow">
+        <input type="checkbox" id="inactive" name="inactive" onchange="toggleReplacementSub()">
+        <label for="inactive" class="grow"><?= translate('inactive', $i18n) ?></label>
+      </div>
+    </div>
+
+    <?php
+      $orderedSubscriptions = $subscriptions;
+      usort($orderedSubscriptions, function ($a, $b) {
+        return strnatcmp(strtolower($a['name']), strtolower($b['name']));
+      });
+    ?>
+
+    <div class="form-group hide" id="replacement_subscritpion">
+      <label for="replacement_subscription_id"><?= translate('replaced_with', $i18n) ?>:</label>
+      <select id="replacement_subscription_id" name="replacement_subscription_id">
+        <option value="0"><?= translate('none', $i18n) ?></option>
+        <?php
+        foreach ($orderedSubscriptions as $sub) {
+          if ($sub['inactive'] == 0) {
+            ?>
+            <option value="<?= htmlspecialchars($sub['id']) ?>"><?= htmlspecialchars($sub['name']) ?>
+            </option>
+            <?php
+          }
+        }
+        ?>
+      </select>
     </div>
 
     <div class="buttons">
@@ -557,7 +597,14 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   </form>
 </section>
 <script src="scripts/dashboard.js?<?= $version ?>"></script>
-
 <?php
+if (isset($_GET['add'])) {
+  ?>
+  <script>
+    addSubscription();
+  </script>
+  <?php
+}
+
 require_once 'includes/footer.php';
 ?>

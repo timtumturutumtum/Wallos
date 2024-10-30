@@ -2,6 +2,11 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 
+if (!file_exists('../../images/uploads/logos')) {
+    mkdir('../../images/uploads/logos', 0777, true);
+    mkdir('../../images/uploads/logos/avatars', 0777, true);
+}
+
 function update_exchange_rate($db, $userId)
 {
     $query = "SELECT api_key, provider FROM fixer WHERE user_id = :userId";
@@ -89,6 +94,8 @@ function update_exchange_rate($db, $userId)
         }
     }
 }
+
+$demoMode = getenv('DEMO_MODE');
 
 $query = "SELECT main_currency FROM user WHERE id = :userId";
 $stmt = $db->prepare($query);
@@ -244,7 +251,7 @@ if (
         $avatar = resizeAndUploadAvatar($_FILES['profile_pic'], '../../images/uploads/logos/avatars/', $name);
     }
 
-    if (isset($_POST['password']) && $_POST['password'] != "") {
+    if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $password = $_POST['password'];
         if (isset($_POST['confirm_password'])) {
             $confirm = $_POST['confirm_password'];
@@ -266,7 +273,7 @@ if (
         }
     }
 
-    if (isset($_POST['password']) && $_POST['password'] != "") {
+    if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $sql = "UPDATE user SET avatar = :avatar, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = :userId";
     } else {
         $sql = "UPDATE user SET avatar = :avatar, email = :email, main_currency = :main_currency, language = :language WHERE id = :userId";
@@ -279,7 +286,7 @@ if (
     $stmt->bindParam(':language', $language, SQLITE3_TEXT);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
-    if (isset($_POST['password']) && $_POST['password'] != "") {
+    if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindParam(':password', $hashedPassword, SQLITE3_TEXT);
     }

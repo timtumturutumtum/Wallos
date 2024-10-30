@@ -4,6 +4,7 @@ self.addEventListener('install', function (event) {
             const urlsToCache = [
                 '.',
                 'index.php',
+                'profile.php',
                 'calendar.php',
                 'settings.php',
                 'stats.php',
@@ -26,6 +27,8 @@ self.addEventListener('install', function (event) {
                 'webfonts/fa-solid-900.ttf',
                 'webfonts/fa-brands-400.woff2',
                 'webfonts/fa-brands-400.ttf',
+                'webfonts/fa-regular-400.woff2',
+                'webfonts/fa-regular-400.ttf',
                 'scripts/common.js',
                 'scripts/dashboard.js',
                 'scripts/stats.js',
@@ -52,11 +55,13 @@ self.addEventListener('install', function (event) {
                 'scripts/i18n/sr_lat.js',
                 'scripts/i18n/sr.js',
                 'scripts/i18n/tr.js',
+                'scripts/i18n/vi.js',
                 'scripts/i18n/zh_cn.js',
                 'scripts/i18n/zh_tw.js',
                 'scripts/i18n/getlang.js',
                 'scripts/libs/chart.js',
                 'scripts/libs/sortable.min.js',
+                'scripts/libs/qrcode.min.js',
                 'images/icon/favicon.ico',
                 'images/icon/android-chrome-192x192.png',
                 'images/icon/apple-touch-icon-180',
@@ -87,6 +92,11 @@ self.addEventListener('install', function (event) {
                 'images/siteicons/svg/web.php',
                 'images/siteicons/svg/websearch.php',
                 'images/siteicons/svg/clone.php',
+                'images/siteicons/svg/mobile-menu/calendar.php',
+                'images/siteicons/svg/mobile-menu/home.php',
+                'images/siteicons/svg/mobile-menu/profile.php',
+                'images/siteicons/svg/mobile-menu/settings.php',
+                'images/siteicons/svg/mobile-menu/statistics.php',
                 'images/siteicons/pwa/stats.png',
                 'images/siteicons/pwa/settings.png',
                 'images/siteicons/pwa/about.png',
@@ -157,7 +167,7 @@ self.addEventListener('fetch', function (event) {
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
     // Check if the request is for an image in the logos directory
-    if (url.pathname.startsWith('/images/uploads/logos/')) {
+    if (url.pathname.includes('images/uploads/logos')) {
         event.respondWith(
             caches.match(event.request).then(response => {
                 return response || fetch(event.request).then(response => {

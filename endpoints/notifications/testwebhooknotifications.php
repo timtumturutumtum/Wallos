@@ -24,14 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
         die(json_encode($response));
     } else {
-        // Set the message parameters
-        $title = translate('wallos_notification', $i18n);
-        $message = translate('test_notification', $i18n);
-
         $requestmethod = $data["requestmethod"];
         $url = $data["url"];
         $payload = $data["payload"];
         $customheaders = json_decode($data["customheaders"], true);
+        $ignore_ssl = $data["ignore_ssl"];
 
         $ch = curl_init();
 
@@ -44,8 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
+        if ($ignore_ssl) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
+
         // Execute the request
         $response = curl_exec($ch);
+
 
         // Close the cURL session
         curl_close($ch);
@@ -54,12 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($response === false) {
             die(json_encode([
                 "success" => false,
-                "message" => translate('notification_failed', $i18n)
+                "message" => translate('notification_failed', $i18n),
+                "response" => curl_error($ch)
             ]));
         } else {
             die(json_encode([
                 "success" => true,
-                "message" => translate('notification_sent_successfuly', $i18n)
+                "message" => translate('notification_sent_successfuly', $i18n),
+                "response" => $response
             ]));
         }
     }
