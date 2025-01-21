@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Подела по категоријама",
     "household_split" => "Подела по домаћинству",
     "payment_method_split" => "Подела по начинима плаћања",
+    "total_cost_trend" => "Тренд укупних трошкова",
     // Страница о апликацији
     "about_and_credits" => "О апликацији и заслугама",
     "credits" => "Заслуге",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Омогући обавештења е-поштом",
     "notify_me" => "Обавести ме",
     "day_before" => "дан пре",
+    "on_due_date" => "на дан доспећа",
     "days_before" => "дана пре",
     "smtp_address" => "SMTP адреса",
     "port" => "Порт",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "Израчунајте и прикажите месечну цену за све претплате",
     "convert_prices" => "Увек конвертујте и прикажите цене на мојој главној валути (спорије)",
     "show_original_price" => "Прикажи и оригиналну цену када се врше конверзије или прорачуни",
+    "experience" => "Искуство",
+    "show_subscription_progress" => "Прикажи прогрес претплате",
     "disabled_subscriptions" => "Онемогућене претплате",
     "hide_disabled_subscriptions" => "Сакриј онемогућене претплате",
     "show_disabled_subscriptions_at_the_bottom" => "Прикажи онемогућене претплате на дну",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "Новембар",
     "month-12" => "Децембар",
     "total_cost" => "Укупан трошак",
+    "export_icalendar" => "Извоз у iCalendar формат",
     // TOTP Page
     "insert_totp_code" => "Унесите ТОТП код",
 

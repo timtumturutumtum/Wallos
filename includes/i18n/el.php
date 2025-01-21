@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Διαχωρισμός κατηγορίας",
     "household_split" => "Διαχωρισμός νοικοκυριού",
     "payment_method_split" => "Διαχωρισμός τρόπου πληρωμής",
+    "total_cost_trend" => "Τάση συνολικού κόστους",
     // About page
     "about_and_credits" => "Σχετικά και Credits",
     "credits" => "Credits",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Ενεργοποίηση ειδοποιήσεων με email",
     "notify_me" => "Ειδοποίησε με",
     "day_before" => "ημέρα πριν",
+    "on_due_date" => "την ημερομηνία λήξης",
     "days_before" => "ημέρες πριν",
     "smtp_address" => "SMTP Address",
     "port" => "Θύρα",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "Υπολογισμός και εμφάνιση της μηνιαίας τιμής για όλες τις συνδρομές",
     "convert_prices" => "Πάντα να μετατρέπει και να εμφανίζει τις τιμές στο κύριο νόμισμά μου (πιο αργό)",
     "show_original_price" => "Εμφάνιση της αρχικής τιμής όταν γίνονται μετατροπές ή υπολογισμοί",
+    "experience" => "Εμπειρία",
+    "show_subscription_progress" => "Εμφάνιση προόδου συνδρομής",
     "disabled_subscriptions" => "Απενεργοποιημένες συνδρομές",
     "hide_disabled_subscriptions" => "Απόκρυψη απενεργοποιημένων συνδρομών",
     "show_disabled_subscriptions_at_the_bottom" => "Εμφάνιση απενεργοποιημένων συνδρομών στο τέλος",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "Νοέμβριος",
     "month-12" => "Δεκέμβριος",
     "total_cost" => "Συνολικό κόστος",
+    "export_icalendar" => "Εξαγωγή iCalendar",
     // TOTP Page
     "insert_totp_code" => "Εισάγετε τον κωδικό TOTP",
 

@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Kategorien",
     "household_split" => "Haushalt",
     "payment_method_split" => "Zahlungsmethode",
+    "total_cost_trend" => "Kostenentwicklung",
     // About page
     "about_and_credits" => "Informationen und Danksagungen",
     "credits" => "Danksagungen",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "E-Mail Benachrichtigung aktivieren",
     "notify_me" => "Benachrichtige mich",
     "day_before" => "Tag bevor",
+    "on_due_date" => "Am Fälligkeitsdatum",
     "days_before" => "Tage bevor",
     "smtp_address" => "SMTP Adresse",
     "port" => "Port",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "Berechne und zeige monatlichen Preis für alle Abonnements an",
     "convert_prices" => "Preise immer in meine Hauptwährung umrechnen und darin anzeigen (langsamer)",
     "show_original_price" => "Originalpreis anzeigen, wenn Umrechnungen oder Berechnungen durchgeführt werden",
+    "experience" => "Erfahrung",
+    "show_subscription_progress" => "Abonnementfortschritt anzeigen",
     "disabled_subscriptions" => "Deaktivierte Abonnements",
     "hide_disabled_subscriptions" => "Deaktivierte Abonnements verstecken",
     "show_disabled_subscriptions_at_the_bottom" => "Deaktivierte Abonnements am Ende anzeigen",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "November",
     "month-12" => "Dezember",
     "total_cost" => "Gesamtkosten",
+    "export_icalendar" => "iCalendar exportieren",
     // TOTP Page
     "insert_totp_code" => "Bitte geben Sie den TOTP-Code ein",
 

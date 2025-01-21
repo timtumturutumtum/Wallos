@@ -122,6 +122,7 @@ $i18n = [
     "category_split" => "分类视图",
     "household_split" => "家庭视图",
     "payment_method_split" => "支付方式视图",
+    "total_cost_trend" => "总费用趋势",
 
     // 关于页面
     "about_and_credits" => "关于和鸣谢",
@@ -164,6 +165,7 @@ $i18n = [
     "enable_email_notifications" => "启用电子邮件通知",
     "notify_me" => "通知提前时间",
     "day_before" => "天", // 设置标题（`notify_me`）中已经表明是提前多少天，因此这里直接用单位即可
+    "on_due_date" => "到期日",
     "days_before" => "天",
     "smtp_address" => "SMTP 地址",
     "port" => "端口",
@@ -230,6 +232,8 @@ $i18n = [
     "calculate_monthly_price" => "计算并显示所有订阅的月价格",
     "convert_prices" => "始终按我的主要货币转换和显示价格（较慢）",
     "show_original_price" => "当进行转换或计算时，也显示原始价格",
+    "experience" => "体验",
+    "show_subscription_progress" => "显示订阅进度",
     "disabled_subscriptions" => "已停用的订阅",
     "hide_disabled_subscriptions" => "隐藏已停用的订阅",
     "show_disabled_subscriptions_at_the_bottom" => "在订阅列表底部显示已停用的订阅",
@@ -390,6 +394,7 @@ $i18n = [
     "month-11" => "十一月",
     "month-12" => "十二月",
     "total_cost" => "总费用",
+    "export_icalendar" => "导出 iCalendar",
 
     // TOTP Page
     "insert_totp_code" => "请输入 TOTP 代码",

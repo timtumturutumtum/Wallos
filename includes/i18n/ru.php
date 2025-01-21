@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "По категориям",
     "household_split" => "По членам семьи",
     "payment_method_split" => "По способам оплаты",
+    "total_cost_trend" => "Тенденция общей стоимости",
     // About page
     "about_and_credits" => "О компании и авторах",
     "credits" => "Благодарности",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Включить уведомления по электронной почте",
     "notify_me" => "Уведомить меня за",
     "day_before" => "день до события",
+    "on_due_date" => "в день события",
     "days_before" => "дня(дней) до события",
     "smtp_address" => "SMTP-адрес",
     "port" => "Порт",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "Рассчитать и показать ежемесячную цену для всех подписок",
     "convert_prices" => "Всегда конвертировать и показывать цены в моей основной валюте (медленнее)",
     "show_original_price" => "Также показывать оригинальную цену при выполнении конверсий или расчетов",
+    "experience" => "Опыт",
+    "show_subscription_progress" => "Показать прогресс подписки",
     "disabled_subscriptions" => "Отключенные подписки",
     "hide_disabled_subscriptions" => "Скрыть отключенные подписки",
     "show_disabled_subscriptions_at_the_bottom" => "Показать отключенные подписки внизу списка",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "Ноябрь",
     "month-12" => "Декабрь",
     "total_cost" => "Общая стоимость",
+    "export_icalendar" => "Экспорт в iCalendar",
     // TOTP Page
     "insert_totp_code" => "Введите код TOTP",
 

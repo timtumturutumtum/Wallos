@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Category Split",
     "household_split" => "Household Split",
     "payment_method_split" => "Payment Method Split",
+    "total_cost_trend" => "Total Cost Trend",
     // About page
     "about_and_credits" => "About and Credits",
     "credits" => "Credits",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Enable email notifications",
     "notify_me" => "Notify me",
     "day_before" => "day before",
+    "on_due_date" => "On due date",
     "days_before" => "days before",
     "smtp_address" => "SMTP Address",
     "port" => "Port",
@@ -223,6 +225,8 @@ $i18n = [
     "calculate_monthly_price" => "Calculate and show monthly price for all subscriptions",
     "convert_prices" => "Always convert and show prices on my main currency (slower)",
     "show_original_price" => "Also show original price when conversions or calculations are made",
+    "experience" => "Experience",
+    "show_subscription_progress" => "Show subscription progress",
     "disabled_subscriptions" => "Disabled Subscriptions",
     "hide_disabled_subscriptions" => "Hide disabled subscriptions",
     "show_disabled_subscriptions_at_the_bottom" => "Show disabled subscriptions at the bottom",
@@ -371,6 +375,7 @@ $i18n = [
     "month-11" => "November",
     "month-12" => "December",
     "total_cost" => "Total Cost",
+    "export_icalendar" => "Export iCalendar",
     // TOTP Page
     "insert_totp_code" => "Insert TOTP code",
 

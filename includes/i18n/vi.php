@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Phân chia theo danh mục",
     "household_split" => "Phân chia theo hộ gia đình",
     "payment_method_split" => "Phân chia theo phương thức thanh toán",
+    "total_cost_trend" => "Xu hướng chi phí tổng cộng",
     //  About page
     "about_and_credits" => "Giới thiệu và cảm ơn",
     "credits" => "Cảm ơn",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Bật thông báo qua email",
     "notify_me" => "Thông báo cho tôi",
     "day_before" => "ngày trước",
+    "on_due_date" => "Vào ngày đáo hạn",
     "days_before" => "ngày trước",
     "smtp_address" => "Địa chỉ SMTP",
     "port" => "Cổng",
@@ -223,6 +225,8 @@ $i18n = [
     "calculate_monthly_price" => "Tính toán và hiển thị giá hàng tháng cho tất cả các đăng ký",
     "convert_prices" => "Luôn chuyển đổi và hiển thị giá theo tiền tệ chính của tôi (chậm hơn)",
     "show_original_price" => "Cũng hiển thị giá gốc khi thực hiện chuyển đổi hoặc tính toán",
+    "experience" => "Trải nghiệm",
+    "show_subscription_progress" => "Hiển thị tiến độ đăng ký",
     "disabled_subscriptions" => "Các đăng ký đã vô hiệu hóa",
     "hide_disabled_subscriptions" => "Ẩn các đăng ký đã vô hiệu hóa",
     "show_disabled_subscriptions_at_the_bottom" => "Hiển thị các đăng ký đã vô hiệu hóa ở cuối",
@@ -371,6 +375,7 @@ $i18n = [
     "month-11" => "Tháng Mười Một",
     "month-12" => "Tháng Mười Hai",
     "total_cost" => "Tổng chi phí",
+    "export_icalendar" => "Xuất iCalendar",
     // TOTP Page
     "insert_totp_code" => "Nhập mã TOTP",
 ];

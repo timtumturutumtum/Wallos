@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Kategori Bölümü",
     "household_split" => "Hane Bölümü",
     "payment_method_split" => "Ödeme Yöntemi Bölümü",
+    "total_cost_trend" => "Toplam Maliyet Eğilimi",
     // About page
     "about_and_credits" => "Hakkında ve Teşekkürler",
     "credits" => "Teşekkürler",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "E-posta bildirimlerini etkinleştir",
     "notify_me" => "Beni bilgilendir",
     "day_before" => "bir gün önce",
+    "on_due_date" => "Vadesinde",
     "days_before" => "günler önce",
     "smtp_address" => "SMTP Adresi",
     "port" => "Port",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "Tüm aboneliklerin aylık fiyatını hesaplayın ve gösterin",
     "convert_prices" => "Fiyatları her zaman ana para birimimde dönüştürün ve gösterin (daha yavaş)",
     "show_original_price" => "Dönüşümler veya hesaplamalar yapıldığında orijinal fiyatı da göster",
+    "experience" => "Deneyim",
+    "show_subscription_progress" => "Aboneliklerin ilerlemesini göster",
     "disabled_subscriptions" => "Devre Dışı Bırakılan Abonelikler",
     "hide_disabled_subscriptions" => "Devre dışı bırakılan abonelikleri gizle",
     "show_disabled_subscriptions_at_the_bottom" => "Devre dışı bırakılan abonelikleri altta göster",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "Kasım",
     "month-12" => "Aralık",
     "total_cost" => "Toplam Maliyet",
+    "export_icalendar" => "iCalendar olarak dışa aktar",
     // TOTP Page
     "insert_totp_code" => "Lütfen TOTP kodunuzu girin",
 

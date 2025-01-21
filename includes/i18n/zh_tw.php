@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "類別分割",
     "household_split" => "家庭分割",
     "payment_method_split" => "付款方式分割",
+    "total_cost_trend" => "總費用趨勢",
     // 關於頁面
     "about_and_credits" => "關於和致謝",
     "credits" => "致謝",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "啟用電子信箱通知",
     "notify_me" => "通知提前時間",
     "day_before" => "天",
+    "on_due_date" => "到期日當天",
     "days_before" => "天",
     "smtp_address" => "SMTP 信箱地址",
     "port" => "連接埠",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "計算並顯示所有訂閱的每月價格",
     "convert_prices" => "始終按照我的主要貨幣單位轉換和顯示價格（較慢）",
     "show_original_price" => "當進行轉換或計算時，也顯示原始價格",
+    "experience" => "體驗",
+    "show_subscription_progress" => "顯示訂閱進度",
     "disabled_subscriptions" => "停用的訂閱",
     "hide_disabled_subscriptions" => "隱藏已停用的訂閱",
     "show_disabled_subscriptions_at_the_bottom" => "將已停用的訂閱顯示在底部",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "十一月",
     "month-12" => "十二月",
     "total_cost" => "總費用",
+    "export_icalendar" => "匯出 iCalendar",
 
     // TOTP Page
     "insert_totp_code" => "請輸入 TOTP 驗證碼",

@@ -19,9 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (
         !isset($data["smtpaddress"]) || $data["smtpaddress"] == "" ||
-        !isset($data["smtpport"]) || $data["smtpport"] == "" ||
-        !isset($data["smtpusername"]) || $data["smtpusername"] == "" ||
-        !isset($data["smtppassword"]) || $data["smtppassword"] == ""
+        !isset($data["smtpport"]) || $data["smtpport"] == ""
     ) {
         $response = [
             "success" => false,
@@ -29,10 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
         die(json_encode($response));
     } else {
-        $enxryption = "tls";
+        $encryption = "none";
         if (isset($data["encryption"])) {
             $encryption = $data["encryption"];
         }
+
+        $smtpAuth = (isset($data["smtpusername"]) && $data["smtpusername"] != "") || (isset($data["smtppassword"]) && $data["smtppassword"] != "");
 
         require '../../libs/PHPMailer/PHPMailer.php';
         require '../../libs/PHPMailer/SMTP.php';
@@ -49,13 +49,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->isSMTP();
 
         $mail->Host = $smtpAddress;
-        $mail->SMTPAuth = true;
-        $mail->Username = $smtpUsername;
-        $mail->Password = $smtpPassword;
-        $mail->SMTPSecure = $encryption;
+        $mail->SMTPAuth = $smtpAuth;
+        if ($smtpAuth) {
+          $mail->Username = $smtpUsername;
+          $mail->Password = $smtpPassword;
+        }
+
+        if ($encryption != "none") {
+          $mail->SMTPSecure = $encryption;
+        }
         $mail->Port = $smtpPort;
 
-        $getUser = "SELECT * FROM user WHERE id = 1";
+        $getUser = "SELECT * FROM user WHERE id = $userId";
         $user = $db->querySingle($getUser, true);
         $email = $user['email'];
         $name = $user['username'];
@@ -84,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 "message" => translate('email_error', $i18n) . $e->getMessage()
             ];
         }
-        
+
         die(json_encode($response));
 
     }

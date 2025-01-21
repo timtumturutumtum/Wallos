@@ -263,6 +263,21 @@ if ($usesMultipleCurrencies) {
   }
 }
 
+$query = "SELECT * FROM total_yearly_cost WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+
+$totalMonthlyCostDataPoints = [];
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+  $totalMonthlyCostDataPoints[] = [
+    "label" => html_entity_decode($row['date']),
+    "y" => round($row['cost'] / 12, 2),
+  ];
+}
+
+$showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
+
 ?>
 <section class="contain">
   <?php
@@ -485,7 +500,7 @@ if ($usesMultipleCurrencies) {
     foreach ($categoryCost as $category) {
       if ($category['cost'] != 0) {
         $categoryDataPoints[] = [
-          "label" => $category['name'],
+          "label" => html_entity_decode($category['name']),
           "y" => $category["cost"],
         ];
       }
@@ -499,7 +514,7 @@ if ($usesMultipleCurrencies) {
     foreach ($memberCost as $member) {
       if ($member['cost'] != 0) {
         $memberDataPoints[] = [
-          "label" => $member['name'],
+          "label" => html_entity_decode($member['name']),
           "y" => $member["cost"],
         ];
 
@@ -513,14 +528,14 @@ if ($usesMultipleCurrencies) {
   foreach ($paymentMethodsCount as $paymentMethod) {
     if ($paymentMethod['count'] != 0) {
       $paymentMethodDataPoints[] = [
-        "label" => $paymentMethod['name'],
+        "label" => html_entity_decode($paymentMethod['name']),
         "y" => $paymentMethod["count"],
       ];
     }
   }
 
-  $showpaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
-  if ($showCategoryCostGraph || $showMemberCostGraph || $showpaymentMethodsGraph) {
+  $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph) {
     ?>
     <h2><?= translate('split_views', $i18n) ?></h2>
     <div class="graphs">
@@ -549,13 +564,25 @@ if ($usesMultipleCurrencies) {
         <?php
       }
 
-      if ($showpaymentMethodsGraph) {
+      if ($showPaymentMethodsGraph) {
         ?>
         <section class="graph">
           <header>
             <?= translate('payment_method_split', $i18n) ?>
           </header>
           <canvas id="paymentMethidSplitChart" style="height: 370px; width: 100%;"></canvas>
+        </section>
+        <?php
+      }
+
+      if ($showTotalMonthlyCostGraph) {
+        ?>
+        <section class="graph">
+          <header>
+            <?= translate('total_cost_trend', $i18n) ?>
+            <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
+          </header>
+          <canvas id="totalMonthlyCostChart" style="height: 370px; width: 100%;"></canvas>
         </section>
         <?php
       }
@@ -568,14 +595,15 @@ if ($usesMultipleCurrencies) {
 
 </section>
 <?php
-if ($showCategoryCostGraph || $showMemberCostGraph || $showpaymentMethodsGraph) {
+if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph) {
   ?>
   <script src="scripts/libs/chart.js"></script>
   <script type="text/javascript">
     window.onload = function () {
       loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ?>);
       loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ?>);
-      loadGraph("paymentMethidSplitChart", <?php echo json_encode($paymentMethodDataPoints, JSON_NUMERIC_CHECK); ?>, "", <?= $showpaymentMethodsGraph ?>);
+      loadGraph("paymentMethidSplitChart", <?php echo json_encode($paymentMethodDataPoints, JSON_NUMERIC_CHECK); ?>, "", <?= $showPaymentMethodsGraph ?>);
+      loadLineGraph("totalMonthlyCostChart", <?php echo json_encode($totalMonthlyCostDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", "<?= $showTotalMonthlyCostGraph ?>");
     }
   </script>
   <?php

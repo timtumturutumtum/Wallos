@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "カテゴリ別",
     "household_split" => "世帯別",
     "payment_method_split" => "支払い方法別",
+    "total_cost_trend" => "合計費用のトレンド",
     // About page
     "about_and_credits" => "概要とクレジット",
     "credits" => "クレジット",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "電子メール通知を有効にする",
     "notify_me" => "通知",
     "day_before" => "日前",
+    "on_due_date" => "支払い日",
     "days_before" => "日前",
     "smtp_address" => "SMTPアドレス",
     "port" => "ポート番号",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "すべての定期購入の月額料金を計算して表示する",
     "convert_prices" => "常にメイン通貨で価格を換算して表示する (遅い)",
     "show_original_price" => "変換や計算が行われるときに元の価格も表示する",
+    "experience" => "体験",
+    "show_subscription_progress" => "定期購入の進捗を表示する",
     "disabled_subscriptions" => "無効な定期購入",
     "hide_disabled_subscriptions" => "無効な定期購入を非表示にする",
     "show_disabled_subscriptions_at_the_bottom" => "無効な定期購入を一番下に表示する",
@@ -363,6 +367,7 @@ $i18n = [
     "month-11" => "11月",
     "month-12" => "12月",
     "total_cost" => "合計費用",
+    "export_icalendar" => "iCalendarをエクスポート",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
 

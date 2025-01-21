@@ -70,6 +70,7 @@ h3 {
 
 .split-header h2 {
   margin-right: 20px;
+  display: flex;
 }
 
 .split-header>h2 .header-subtitle {
@@ -411,6 +412,22 @@ button.mobile-action-renew {
 
 .subscription-container.hide {
   display: none;
+}
+
+.subscription-container>.subscription-progress-container {
+  position: absolute;
+  bottom: 0px;
+  left: 8px;
+  right: 8px;
+  height: 3px;
+  z-index: 1;
+} 
+
+.subscription-container>.subscription-progress-container>.subscription-progress {
+  height: 3px;
+  background-color: var(--accent-color);
+  display: block;
+  position: absolute;
 }
 
 .subscription.inactive {
@@ -1416,6 +1433,7 @@ textarea.thin {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: white;
   box-sizing: border-box;
+  z-index: 1;
   display: none;
 }
 
@@ -2679,6 +2697,14 @@ input[type="radio"]:checked+label::after {
   background-position: center;
   background-repeat: no-repeat;
   aspect-ratio: 16/9;
+}
+
+.button.export-ical {
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  color: white;
 }
 
 @media (max-width: 768px) {

@@ -4,6 +4,7 @@ $languages = [
     // English first
     "en" => ["name" => "English", "dir" => "ltr"],
     // Remaining sorted alphabetically by language code
+    "cs" => ["name" => "Čeština", "dir" => "ltr"],
     "de" => ["name" => "Deutsch", "dir" => "ltr"],
     "el" => ["name" => "Ελληνικά", "dir" => "ltr"],
     "es" => ["name" => "Español", "dir" => "ltr"],
@@ -11,6 +12,7 @@ $languages = [
     "it" => ["name" => "Italiano", "dir" => "ltr"],
     "jp" => ["name" => "日本語", "dir" => "ltr"],
     "ko" => ["name" => "한국어", "dir" => "ltr"],
+    "nl" => ["name" => "Nederlands", "dir" => "ltr"], 
     "pl" => ["name" => "Polski", "dir" => "ltr"],
     "pt" => ["name" => "Português", "dir" => "ltr"],
     "pt_br" => ["name" => "Português Brasileiro", "dir" => "ltr"],

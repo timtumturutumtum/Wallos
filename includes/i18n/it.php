@@ -122,6 +122,7 @@ $i18n = [
     "category_split" => 'Suddivisione per categoria',
     "household_split" => 'Suddivisione per nucleo familiare',
     "payment_method_split" => 'Suddivisione per metodo di pagamento',
+    "total_cost_trend" => 'Trend del costo totale',
 
     // About
     "about_and_credits" => 'Informazioni e crediti',
@@ -164,6 +165,7 @@ $i18n = [
     "enable_email_notifications" => 'Abilita le notifiche via e-mail',
     "notify_me" => 'Avvisami',
     "day_before" => 'giorno prima',
+    "on_due_date" => 'Alla data di scadenza',
     "days_before" => 'giorni prima',
     "smtp_address" => 'Indirizzo SMTP',
     "port" => 'Porta',
@@ -229,6 +231,8 @@ $i18n = [
     "calculate_monthly_price" => 'Calcola e mostra il prezzo mensile per tutti gli abbonamenti',
     "convert_prices" => 'Converti sempre e mostra i prezzi nella mia valuta principale (più lento)',
     "show_original_price" => "Mostra anche il prezzo originale quando vengono effettuate conversioni o calcoli",
+    "experience" => 'Esperienza',
+    "show_subscription_progress" => 'Mostra il progresso dell\'abbonamento',
     "disabled_subscriptions" => 'Abbonamenti disattivati',
     "hide_disabled_subscriptions" => 'Nascondi gli abbonamenti disattivati',
     "show_disabled_subscriptions_at_the_bottom" => 'Mostra gli abbonamenti disattivati in fondo',
@@ -390,6 +394,7 @@ $i18n = [
     "month-11" => "Novembre",
     "month-12" => "Dicembre",
     "total_cost" => "Costo totale",
+    "export_icalendar" => "Esporta iCal",
 
     // TOTP Page
     "insert_totp_code" => "Inserisci il codice TOTP",

@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "카테고리별",
     "household_split" => "가구별",
     "payment_method_split" => "지불방법별",
+    "total_cost_trend" => "총 비용 추이",
     // About page
     "about_and_credits" => "개요 및 크레딧",
     "credits" => "크레딧",
@@ -156,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "이메일 알림 활성화",
     "notify_me" => "알림 받기",
     "day_before" => "일 전",
+    "on_due_date" => "만기일",
     "days_before" => "일 전",
     "smtp_address" => "SMTP 주소",
     "port" => "포트",
@@ -222,6 +224,8 @@ $i18n = [
     "calculate_monthly_price" => "모든 구독에 대한 월별 요금을 계산하고 표시",
     "convert_prices" => "항상 기본 통화로 가격을 환산하고 표시 (느림)",
     "show_original_price" => "변환이나 계산이 이루어질 때 원래 가격도 표시",
+    "experience" => "경험",
+    "show_subscription_progress" => "구독 진행률 표시",
     "disabled_subscriptions" => "비활성화된 구독",
     "hide_disabled_subscriptions" => "비활성화된 구독 숨기기",
     "show_disabled_subscriptions_at_the_bottom" => "비활성화된 구독을 하단에 표시",
@@ -370,6 +374,7 @@ $i18n = [
     "month-11" => "11월",
     "month-12" => "12월",
     "total_cost" => "총 비용",
+    "export_icalendar" => "iCalendar 내보내기",
     // TOTP Page
     "insert_totp_code" => "2단계 인증 코드를 입력하세요",
 
