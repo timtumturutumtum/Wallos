@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "最終追加日",
     "price" => "金額",
     "next_payment" => "次回支払い",
+    "renewal_type" => "更新タイプ",
     "auto_renewal" => "自動更新",
     "automatically_renews" => "自動更新",
     "manual_renewal" => "手動更新",
@@ -121,6 +122,8 @@ $i18n = [
     "about_and_credits" => "概要とクレジット",
     "credits" => "クレジット",
     "license" => "ライセンス",
+    "release_notes" => "リリースノート",
+    "update_available" => "利用可能な更新",
     "issues_and_requests" => "問題と要望",
     "the_author" => "著者",
     "icons" => "アイコン",
@@ -167,6 +170,7 @@ $i18n = [
     "smtp_password" => "SMTPパスワード",
     "from_email" => "送信元アドレス (オプション)",
     "send_to_other_emails" => "通知を以下のメールアドレスにも送信する（区切りには ; を使用）:",
+    "other_emails_placeholder" => "user@domain.com;test@user.com",
     "smtp_info" => "SMTPパスワードは平文で送信および保存されます。セキュリティのため専用のアカウントを作成してください。",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegramボットトークン",
@@ -255,6 +259,13 @@ $i18n = [
     "backup" => "バックアップ",
     "restore" => "リストア",
     "restore_info" => "データベースをリストアすると、現在のデータがすべて上書きされます。リストア後はサインアウトされます。",
+    "account" => "アカウント",
+    "export_subscriptions" => "定期購入をエクスポート",
+    "export_as_json" => "JSONとしてエクスポート",
+    "export_as_csv" => "CSVとしてエクスポート",
+    "danger_zone" => "危険地帯",
+    "delete_account" => "アカウントを削除",
+    "delete_account_info" => "アカウントを削除するとすべてのサブスクリプションと設定も削除されます。",
     // Filters menu
     "filter" => "フィルタ",
     "clear" => "クリア",
@@ -370,6 +381,7 @@ $i18n = [
     "export_icalendar" => "iCalendarをエクスポート",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
+    
 
 ];
 
