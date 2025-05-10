@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "За членами сім'ї",
     "payment_method_split" => "За способами оплати",
     "total_cost_trend" => "Тенденція загальної вартості",
+    "cost_vs_budget" => "Вартість у порівнянні з бюджетом",
     // About page
     "about_and_credits" => "Про компанію та авторів",
     "credits" => "Подяки",
@@ -179,7 +180,8 @@ $i18n = [
     "request_method" => "Метод запиту",
     "custom_headers" => "Користувацькі заголовки",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Замінити {{subscriptions}} ім'ям ключа.",
+    "payment_notifications_payload" => "Payload для сповіщення про платіж",
+    "cancelation_notification_payload" => "Payload для сповіщення про скасування",
     "variables_available" => "Доступні змінні",
     "gotify" => "Gotify",
     "token" => "Токен",
@@ -378,6 +380,7 @@ $i18n = [
     "month-12" => "Грудень",
     "total_cost" => "Загальна вартість",
     "export_icalendar" => "Експорт у iCalendar",
+    "over_budget_warning" => "Ви перевищили бюджет",
     // TOTP Page
     "insert_totp_code" => "Введіть код TOTP",
 

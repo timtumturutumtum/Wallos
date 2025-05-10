@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Подела по домаћинству",
     "payment_method_split" => "Подела по начинима плаћања",
     "total_cost_trend" => "Тренд укупних трошкова",
+    "cost_vs_budget" => "Трошак у односу на буџет",
     // Страница о апликацији
     "about_and_credits" => "О апликацији и заслугама",
     "credits" => "Заслуге",
@@ -179,7 +180,8 @@ $i18n = [
     "request_method" => "Метод захтева",
     "custom_headers" => "Прилагођени заглавља",
     "webhook_payload" => "Вебхук Пајлоад",
-    "webhook_iterator_key" => "{{subscriptions}} замени кључним итератором",
+    "payment_notifications_payload" => "Обавештење о плаћању Пејлоад",
+    "cancelation_notification_payload" => "Отказивање обавештење Пејлоад",
     "variables_available" => "Доступне променљиве",
     "gotify" => "Готифи",
     "token" => "Токен",
@@ -378,6 +380,7 @@ $i18n = [
     "month-12" => "Децембар",
     "total_cost" => "Укупан трошак",
     "export_icalendar" => "Извоз у iCalendar формат",
+    "over_budget_warning" => "Прекорачили сте буџет",
     // TOTP Page
     "insert_totp_code" => "Унесите ТОТП код",
 

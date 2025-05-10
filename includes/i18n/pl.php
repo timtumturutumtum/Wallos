@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Podział gospodarstwa domowego",
     "payment_method_split" => "Podział metod płatności",
     "total_cost_trend" => "Trend całkowitego kosztu",
+    "cost_vs_budget" => "Koszt w porównaniu do budżetu",
     // About page
     "about_and_credits" => "Informacje i podziękowania",
     "credits" => "Podziękowania",
@@ -179,7 +180,8 @@ $i18n = [
     "request_method" => "Metoda żądania",
     "custom_headers" => "Niestandardowe nagłówki",
     "webhook_payload" => "Dane webhooka",
-    "webhook_iterator_key" => "Zastąp {{subscriptions}} nazwą klucza",
+    "payment_notifications_payload" => "Dane powiadomienia o płatności",
+    "cancelation_notification_payload" => "Dane powiadomienia o anulowaniu subskrypcji",
     "variables_available" => "Dostępne zmienne",
     "gotify" => "Gotify",
     "token" => "Token",
@@ -378,6 +380,7 @@ $i18n = [
     "month-12" => "Grudzień",
     "total_cost" => "Całkowity koszt",
     "export_icalendar" => "Eksportuj do iCalendar",
+    "over_budget_warning" => "Przekroczyłeś budżet",
     // TOTP Page
     "insert_totp_code" => "Wprowadź kod TOTP",
 

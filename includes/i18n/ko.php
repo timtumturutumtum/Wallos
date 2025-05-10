@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "가구별",
     "payment_method_split" => "지불방법별",
     "total_cost_trend" => "총 비용 추이",
+    "cost_vs_budget" => "비용 vs 예산",
     // About page
     "about_and_credits" => "개요 및 크레딧",
     "credits" => "크레딧",
@@ -179,7 +180,8 @@ $i18n = [
     "request_method" => "요청 메서드",
     "custom_headers" => "커스텀 헤더",
     "webhook_payload" => "웹훅 페이로드",
-    "webhook_iterator_key" => "{{subscriptions}}을 키 이름으로 바꾸기",
+    "payment_notifications_payload" => "결제 알림 페이로드",
+    "cancelation_notification_payload" => "구독 취소 알림 페이로드",
     "variables_available" => "사용 가능한 변수",
     "gotify" => "Gotify",
     "token" => "토큰",
@@ -378,6 +380,7 @@ $i18n = [
     "month-12" => "12월",
     "total_cost" => "총 비용",
     "export_icalendar" => "iCalendar 내보내기",
+    "over_budget_warning" => "예산이 초과되었습니다",
     // TOTP Page
     "insert_totp_code" => "2단계 인증 코드를 입력하세요",
 

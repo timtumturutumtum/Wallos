@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Razdelitev gospodinjstva",
     "payment_method_split" => "Razdelitev načina plačila",
     "total_cost_trend" => "Trend skupnih stroškov",
+    "cost_vs_budget" => "Stroški v primerjavi s proračunom",
     // About page
     "about_and_credits" => "O programu in zahvale",
     "credits" => "Zahvale",
@@ -179,7 +180,8 @@ $i18n = [
     "request_method" => "Metoda zahteve",
     "custom_headers" => "Glave po meri",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Zamenjaj {{subscriptions}} z imenom ključa",
+    "payment_notifications_payload" => "Obvestilo o plačilu",
+    "cancelation_notification_payload" => "Obvestilo o preklicu",
     "variables_available" => "Spremenljivke, ki so na voljo",
     "gotify" => "Gotify",
     "token" => "Žeton",
@@ -371,6 +373,7 @@ $i18n = [
     "month-12" => "December",
     "total_cost" => "Skupni stroški",
     "export_icalendar" => "Izvozi iCalendar",
+    "over_budget_warning" => "Presegli ste proračun",
     // TOTP Page
     "insert_totp_code" => "Vnesite kodo TOTP",
 

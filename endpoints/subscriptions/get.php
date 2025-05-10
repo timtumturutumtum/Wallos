@@ -18,11 +18,13 @@ if (isset($settings['color_theme'])) {
   $colorTheme = $settings['color_theme'];
 }
 
-$locale = isset($_COOKIE['user_locale']) ? $_COOKIE['user_locale'] : 'en_US';
 $formatter = new IntlDateFormatter(
-  $locale,
-  IntlDateFormatter::MEDIUM,
-  IntlDateFormatter::NONE
+  'en', // Force English locale
+  IntlDateFormatter::SHORT,
+  IntlDateFormatter::NONE,
+  null,
+  null,
+  'MMM d, yyyy'
 );
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -216,7 +218,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   if (isset($print)) {
-    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies);
+    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
   }
 
   if (count($subscriptions) == 0) {

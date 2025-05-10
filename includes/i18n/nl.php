@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Huishoudenverdeling",
     "payment_method_split" => "Betaalmethodeverdeling",
     "total_cost_trend" => "Totale kosten trend",
+    "cost_vs_budget" => "Kosten vs Budget",
     // About page
     "about_and_credits" => "Over en credits",
     "credits" => "Credits",
@@ -180,7 +181,8 @@ $i18n = [
     "request_method" => "Request Methode",
     "custom_headers" => "Aangepaste Headers",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Vervang {{subscriptions}} met sleutelnaam",
+    "payment_notifications_payload" => "Betalingsnotificatie Payload",
+    "cancelation_notification_payload" => "Opzegnotificatie Payload",
     "variables_available" => "Beschikbare variabelen",
     "gotify" => "Gotify",
     "token" => "Token",
@@ -379,6 +381,7 @@ $i18n = [
     "month-12" => "December",
     "total_cost" => "Totale kosten",
     "export_icalendar" => "Exporteer iCalendar",
+    "over_budget_warning" => "U bent over uw budget",
     // TOTP Page
     "insert_totp_code" => "Voer TOTP code in",
 

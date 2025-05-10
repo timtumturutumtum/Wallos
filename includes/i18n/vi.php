@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Phân chia theo hộ gia đình",
     "payment_method_split" => "Phân chia theo phương thức thanh toán",
     "total_cost_trend" => "Xu hướng chi phí tổng cộng",
+    "cost_vs_budget" => "Chi phí so với ngân sách",
     //  About page
     "about_and_credits" => "Giới thiệu và cảm ơn",
     "credits" => "Cảm ơn",
@@ -180,7 +181,8 @@ $i18n = [
     "request_method" => "Phương thức yêu cầu",
     "custom_headers" => "Tiêu đề tùy chỉnh",
     "webhook_payload" => "Payload Webhook",
-    "webhook_iterator_key" => "Thay thế {{subscriptions}} bằng tên khóa",
+    "payment_notifications_payload" => "Payload thông báo thanh toán",
+    "cancelation_notification_payload" => "Payload thông báo hủy",
     "variables_available" => "Các biến khả dụng",
     "gotify" => "Gotify",
     "token" => "Mã thông báo",
@@ -379,6 +381,7 @@ $i18n = [
     "month-12" => "Tháng Mười Hai",
     "total_cost" => "Tổng chi phí",
     "export_icalendar" => "Xuất iCalendar",
+    "over_budget_warning" => "Bạn đang vượt quá ngân sách",
     // TOTP Page
     "insert_totp_code" => "Nhập mã TOTP",
 ];

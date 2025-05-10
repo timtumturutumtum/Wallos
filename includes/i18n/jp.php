@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "世帯別",
     "payment_method_split" => "支払い方法別",
     "total_cost_trend" => "合計費用のトレンド",
+    "cost_vs_budget" => "費用対予算",
     // About page
     "about_and_credits" => "概要とクレジット",
     "credits" => "クレジット",
@@ -180,7 +181,8 @@ $i18n = [
     "request_method" => "リクエストメソッド",
     "custom_headers" => "カスタムヘッダー",
     "webhook_payload" => "Webhookペイロード",
-    "webhook_iterator_keu" => "{{subscriptions}}をキー名に置き換える」",
+    "payment_notifications_payload" => "支払い通知ペイロード",
+    "cancelation_notification_payload" => "キャンセル通知ペイロード",
     "variables_available" => "利用可能な変数",
     "gotify" => "Gotify",
     "token" => "トークン",
@@ -379,6 +381,7 @@ $i18n = [
     "month-12" => "12月",
     "total_cost" => "合計費用",
     "export_icalendar" => "iCalendarをエクスポート",
+    "over_budget_warning" => "予算オーバーだ",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
     

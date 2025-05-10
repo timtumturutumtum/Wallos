@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Household Split",
     "payment_method_split" => "Payment Method Split",
     "total_cost_trend" => "Total Cost Trend",
+    "cost_vs_budget" => "Cost vs Budget",
     // About page
     "about_and_credits" => "About and Credits",
     "credits" => "Credits",
@@ -180,7 +181,8 @@ $i18n = [
     "request_method" => "Request Method",
     "custom_headers" => "Custom Headers",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Replace {{subscriptions}} with key name",
+    "payment_notifications_payload" => "Payment Notification Payload",
+    "cancelation_notification_payload" => "Cancelation Notification Payload",
     "variables_available" => "Variables available",
     "gotify" => "Gotify",
     "token" => "Token",
@@ -379,6 +381,7 @@ $i18n = [
     "month-12" => "December",
     "total_cost" => "Total Cost",
     "export_icalendar" => "Export iCalendar",
+    "over_budget_warning" => "You're over budget",
     // TOTP Page
     "insert_totp_code" => "Insert TOTP code",
 

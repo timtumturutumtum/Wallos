@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Rozdělení domácnosti",
     "payment_method_split" => "Rozdělení platebních metod",
     "total_cost_trend" => "Trend celkových nákladů",
+    "cost_vs_budget" => "Celkové náklady vs. rozpočet",
     // About page
     "about_and_credits" => "O aplikaci a zásluhy",
     "credits" => "Zásluhy",
@@ -180,7 +181,8 @@ $i18n = [
     "request_method" => "Metoda požadavku",
     "custom_headers" => "Vlastní hlavičky",
     "webhook_payload" => "Zatížení webhooku",
-    "webhook_iterator_key" => "Nahradit {{subscriptions}} názvem klíče",
+    "payment_notifications_payload" => "Zatížení oznámení o platbě",
+    "cancelation_notification_payload" => "Zatížení oznámení o zrušení",
     "variables_available" => "Dostupné proměnné",
     "gotify" => "Gotify",
     "token" => "Token",
@@ -379,6 +381,7 @@ $i18n = [
     "month-12" => "Prosinec",
     "total_cost" => "Celkové náklady",
     "export_icalendar" => "Exportovat iCalendar",
+    "over_budget_warning" => "Překročili jste rozpočet",
     // TOTP Page
     "insert_totp_code" => "Vložte kód TOTP",
 
