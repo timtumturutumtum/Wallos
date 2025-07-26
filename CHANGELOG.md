@@ -1,5 +1,26 @@
 # Changelog
 
+## [4.0.0](https://github.com/ellite/Wallos/compare/v3.3.1...v4.0.0) (2025-07-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* add oauth / oidc support ([#875](https://github.com/ellite/Wallos/issues/875))
+
+### Features
+
+* add oauth / oidc support ([#875](https://github.com/ellite/Wallos/issues/875)) ([805e688](https://github.com/ellite/Wallos/commit/805e688ec0fac1dbb362e847ed8a4e3e301ee113))
+* add oauth/oidc support ([#873](https://github.com/ellite/Wallos/issues/873)) ([c0d53e4](https://github.com/ellite/Wallos/commit/c0d53e4423996595e5c82404af92e077c00eae47))
+
+## [3.3.1](https://github.com/ellite/Wallos/compare/v3.3.0...v3.3.1) (2025-07-19)
+
+
+### Bug Fixes
+
+* code of new taiwan dollar ([596cbc4](https://github.com/ellite/Wallos/commit/596cbc42464100dc8c6db5d07c090dab4b767268))
+* decoding of header from database on the webhook notifications ([596cbc4](https://github.com/ellite/Wallos/commit/596cbc42464100dc8c6db5d07c090dab4b767268))
+* unicode issue on telegram notifications ([#871](https://github.com/ellite/Wallos/issues/871)) ([596cbc4](https://github.com/ellite/Wallos/commit/596cbc42464100dc8c6db5d07c090dab4b767268))
+
 ## [3.3.0](https://github.com/ellite/Wallos/compare/v3.2.0...v3.3.0) (2025-06-09)
 
 
