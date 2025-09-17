@@ -1,5 +1,27 @@
 # Changelog
 
+## [4.3.0](https://github.com/ellite/Wallos/compare/v4.2.0...v4.3.0) (2025-09-15)
+
+
+### Features
+
+* add health endpoint and healthcheck to container ([#919](https://github.com/ellite/Wallos/issues/919)) ([852cb48](https://github.com/ellite/Wallos/commit/852cb485a65a58c91577b369fb9ea293d370bda8))
+
+## [4.2.0](https://github.com/ellite/Wallos/compare/v4.1.1...v4.2.0) (2025-09-14)
+
+
+### Features
+
+* add pushplus notification service  ([#911](https://github.com/ellite/Wallos/issues/911)) ([27ac805](https://github.com/ellite/Wallos/commit/27ac805141c0d170a40c2a7796a589a5ef29544f))
+* make container shutdown instant & graceful ([27ac805](https://github.com/ellite/Wallos/commit/27ac805141c0d170a40c2a7796a589a5ef29544f))
+* make container shutdown instant & graceful  ([#916](https://github.com/ellite/Wallos/issues/916)) ([27ac805](https://github.com/ellite/Wallos/commit/27ac805141c0d170a40c2a7796a589a5ef29544f))
+* option to delete ai recommendations ([27ac805](https://github.com/ellite/Wallos/commit/27ac805141c0d170a40c2a7796a589a5ef29544f))
+
+
+### Bug Fixes
+
+* parsing ai recommendations from gemini ([#909](https://github.com/ellite/Wallos/issues/909)) ([27ac805](https://github.com/ellite/Wallos/commit/27ac805141c0d170a40c2a7796a589a5ef29544f))
+
 ## [4.1.1](https://github.com/ellite/Wallos/compare/v4.1.0...v4.1.1) (2025-08-13)
 
 
