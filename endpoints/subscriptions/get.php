@@ -3,6 +3,7 @@ require_once '../../includes/connect_endpoint.php';
 
 require_once '../../includes/currency_formatter.php';
 require_once '../../includes/getdbkeys.php';
+require_once '../../includes/logo_theme_variant.php';
 
 include_once '../../includes/list_subscriptions.php';
 
@@ -88,8 +89,31 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   if (isset($_GET['renewalType']) && $_GET['renewalType'] != "") {
-    $sql .= " AND auto_renew = :auto_renew";
-    $params[':auto_renew'] = $_GET['renewalType'];
+    if ($_GET['renewalType'] === 'onetime') {
+      $sql .= " AND cycle = 5";
+    } else {
+      $sql .= " AND auto_renew = :auto_renew AND cycle != 5";
+      $params[':auto_renew'] = $_GET['renewalType'];
+    }
+  }
+
+  if (isset($_GET['notifications']) && $_GET['notifications'] !== "") {
+    $notifTypes = array_filter(explode(',', $_GET['notifications']), fn($t) => in_array($t, ['reminder', 'cancellation', 'none']));
+    $notifConditions = [];
+    foreach ($notifTypes as $type) {
+      if ($type === 'reminder') {
+        $notifConditions[] = "notify = 1";
+      } elseif ($type === 'cancellation') {
+        // One-time purchases are never treated as cancellable, matching the
+        // dashboard, statistics page and cancellation notification cron.
+        $notifConditions[] = "(cancellation_date IS NOT NULL AND cancellation_date != '' AND cycle != 5)";
+      } elseif ($type === 'none') {
+        $notifConditions[] = "(notify = 0 AND (cancellation_date IS NULL OR cancellation_date = '' OR cycle = 5))";
+      }
+    }
+    if (!empty($notifConditions)) {
+      $sql .= " AND (" . implode(' OR ', $notifConditions) . ")";
+    }
   }
 
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
@@ -157,10 +181,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $id = $subscription['id'];
     $print[$id]['id'] = $id;
     $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : "";
+    $print[$id]['logo_text_color'] = $subscription['logo_text_color'] ?? null;
+    $print[$id]['logo_variant'] = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
     $print[$id]['name'] = $subscription['name'] ?? "";
     $cycle = $subscription['cycle'];
     $frequency = $subscription['frequency'];
     $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
+    $print[$id]['one_time'] = ($cycle == 5);
     $paymentMethodId = $subscription['payment_method_id'];
     $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
     $currencyId = $subscription['currency_id'];
@@ -235,6 +262,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     </div>
     <?php
   }
+} else {
+  http_response_code(401);
+  ?>
+  <p class="no-matching-subscriptions"><?= translate('session_expired', $i18n) ?></p>
+  <?php
 }
 
 $db->close();

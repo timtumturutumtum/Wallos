@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/default_names.php'; ?>
 <div class="filtermenu-content">
   <?php
   if (count($members) > 1) {
@@ -35,11 +36,17 @@
       <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
       <div class="filtermenu-submenu-content" id="filter-category">
         <?php
+        // A category still carrying its untouched default name is
+        // recognised against the account's own creation-language default,
+        // not a literal English string - #1216 gives every language its
+        // own default, so an account created in German never had an
+        // English name to match here.
+        $noCategoryDefaultName = default_no_category_name($userData['language'] ?? 'en');
         foreach ($categories as $category) {
           if ($category['count'] == 0) {
             continue;
           }
-          if ($category['name'] == "No category") {
+          if ($category['name'] === $noCategoryDefaultName) {
             $category['name'] = translate("no_category", $i18n);
           }
           $selectedClass = '';
@@ -110,6 +117,16 @@
     <div class="filtermenu-submenu-content" id="filter-renewal_type">
       <div class="filter-item capitalize" data-renewaltype="1"><?= translate("auto_renewal", $i18n) ?></div>
       <div class="filter-item capitalize" data-renewaltype="0"><?= translate("manual_renewal", $i18n) ?></div>
+      <div class="filter-item capitalize" data-renewaltype="onetime"><?= translate("One-time", $i18n) ?></div>
+    </div>
+  </div>
+
+  <div class="filtermenu-submenu">
+    <div class="filter-title" onClick="toggleSubMenu('notification')"><?= translate("notifications", $i18n) ?></div>
+    <div class="filtermenu-submenu-content" id="filter-notification">
+      <div class="filter-item capitalize" data-notificationtype="reminder"><?= translate("reminder", $i18n) ?></div>
+      <div class="filter-item capitalize" data-notificationtype="cancellation"><?= translate("cancellation", $i18n) ?></div>
+      <div class="filter-item capitalize" data-notificationtype="none"><?= translate("none", $i18n) ?></div>
     </div>
   </div>
 
