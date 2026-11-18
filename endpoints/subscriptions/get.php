@@ -1,6 +1,16 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 
+header('Content-Type: application/json; charset=utf-8');
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+  // Answer before the list helpers load: they query on behalf of a user.
+  http_response_code(401);
+  echo json_encode(['success' => false, 'message' => html_entity_decode(translate('session_expired', $i18n), ENT_QUOTES | ENT_HTML5, 'UTF-8')], JSON_INVALID_UTF8_SUBSTITUTE);
+  $db->close();
+  exit;
+}
+
 require_once '../../includes/currency_formatter.php';
 require_once '../../includes/getdbkeys.php';
 require_once '../../includes/logo_theme_variant.php';
@@ -43,6 +53,21 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   if (isset($_GET['categories']) && $_GET['categories'] != "") {
     $allCategories = explode(',', $_GET['categories']);
     $sql .= " AND " . categoryFilterCondition($allCategories, $params);
+  }
+
+  if (isset($_GET['folders']) && $_GET['folders'] != "") {
+    $allFolders = explode(',', $_GET['folders']);
+    $placeholders = array_map(function ($idx) {
+      return ":folders{$idx}";
+    }, array_keys($allFolders));
+
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
+      return "folder_id = {$placeholder}";
+    }, $placeholders)) . ")";
+
+    foreach ($allFolders as $idx => $folder) {
+      $params[":folders{$idx}"] = $folder;
+    }
   }
 
   if (isset($_GET['payments']) && $_GET['payments'] !== "") {
@@ -158,9 +183,19 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   $payersBySubscription = getPayersBySubscription($db, $subscriptions);
   $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
+  $paidStatusFilter = isset($_GET['paidStatus']) && in_array($_GET['paidStatus'], ['paid', 'unpaid']) ? $_GET['paidStatus'] : '';
 
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
+      continue;
+    }
+    $cycle = $subscription['cycle'];
+    $frequency = $subscription['frequency'];
+    $paidThisCycle = isPaidThisCycle($subscription['paid_at'] ?? null, $cycle, $frequency, $subscription['next_payment']);
+    if ($paidStatusFilter === 'paid' && !$paidThisCycle) {
+      continue;
+    }
+    if ($paidStatusFilter === 'unpaid' && $paidThisCycle) {
       continue;
     }
     $id = $subscription['id'];
@@ -169,8 +204,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['logo_text_color'] = $subscription['logo_text_color'] ?? null;
     $print[$id]['logo_variant'] = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
     $print[$id]['name'] = $subscription['name'] ?? "";
-    $cycle = $subscription['cycle'];
-    $frequency = $subscription['frequency'];
     $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
     $print[$id]['one_time'] = ($cycle == 5);
     $paymentMethodId = $subscription['payment_method_id'];
@@ -187,12 +220,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
+    $print[$id]['folder_id'] = $subscription['folder_id'] ?? null;
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
+    $print[$id]['paid_this_cycle'] = $paidThisCycle;
     $print[$id]['url'] = $subscription['url'] ?? "";
     $print[$id]['notes'] = $subscription['notes'] ?? "";
     $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
@@ -233,29 +268,53 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     });
   }
 
-  if (isset($print)) {
-    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
+  $iconDir = '../../images/siteicons/svg/';
+  $readIcon = function ($name) use ($iconDir) {
+    return trim(file_get_contents($iconDir . $name . '.php'));
+  };
+  $mobileNavigation = $settings['mobileNavigation'] === 'true';
+
+  $icons = [
+    'logo' => $readIcon('logo'),
+    'automatic' => $readIcon('automatic'),
+    'manual' => $readIcon('manual'),
+  ];
+  if ($mobileNavigation) {
+    foreach (['clone', 'delete', 'renew', 'edit', 'paid'] as $name) {
+      $icons[$name] = $readIcon('mobile-menu/' . $name);
+    }
   }
 
-  if (count($subscriptions) == 0) {
-    ?>
-    <div class="no-matching-subscriptions">
-      <p>
-        <?= translate('no_matching_subscriptions', $i18n) ?>
-      </p>
-      <button class="button" onClick="clearFilters()">
-        <span clasS="fa-solid fa-minus-circle"></span>
-        <?= translate('clear_filters', $i18n) ?>
-      </button>
-      <img src="images/siteimages/empty.png" alt="<?= translate('empty_page', $i18n) ?>" />
-    </div>
-    <?php
+  $labels = [];
+  foreach (['payment_method', 'edit_subscription', 'edit', 'delete', 'clone', 'renew', 'cancel', 'mark_as_paid', 'mark_as_unpaid', 'paid'] as $key) {
+    $labels[$key] = htmlToText(translate($key, $i18n));
   }
-} else {
-  http_response_code(401);
-  ?>
-  <p class="no-matching-subscriptions"><?= translate('session_expired', $i18n) ?></p>
-  <?php
+
+  echo json_encode([
+    'success' => true,
+    'total' => count($subscriptions),
+    'mobile_navigation' => $mobileNavigation,
+    'subscriptions' => buildSubscriptionsPayload(
+      $print ?? [],
+      $sort,
+      $categories,
+      $folders,
+      $members,
+      $i18n,
+      $settings['disabledToBottom'],
+      $settings['showSubscriptionProgress'],
+      $currencies,
+      $lang
+    ),
+    'folders' => buildFolderStats($db, $userId, $folders ?? [], $mainCurrencyId, $currencies, $i18n),
+    'labels' => $labels,
+    'icons' => $icons,
+    'messages' => [
+      'no_matching_subscriptions' => htmlToText(translate('no_matching_subscriptions', $i18n)),
+      'clear_filters' => htmlToText(translate('clear_filters', $i18n)),
+      'empty_page' => htmlToText(translate('empty_page', $i18n)),
+    ],
+  ], JSON_INVALID_UTF8_SUBSTITUTE);
 }
 
 $db->close();

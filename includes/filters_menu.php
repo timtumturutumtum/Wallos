@@ -19,7 +19,7 @@
             }
           }
           ?>
-          <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?>
+          <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= htmlSafe($member['name']) ?>
           </div>
           <?php
         }
@@ -58,7 +58,35 @@
           }
           ?>
           <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-            <?= $category['name'] ?>
+            <?= htmlSafe($category['name']) ?>
+          </div>
+          <?php
+        }
+        ?>
+      </div>
+    </div>
+    <?php
+  }
+  ?>
+  <?php
+  if (!empty($folders)) {
+    ?>
+    <div class="filtermenu-submenu">
+      <div class="filter-title" onClick="toggleSubMenu('folder')"><?= translate("folder", $i18n) ?></div>
+      <div class="filtermenu-submenu-content" id="filter-folder">
+        <?php
+        foreach ($folders as $folder) {
+          $selectedClass = '';
+          if (isset($_GET['folder'])) {
+            $folderIds = explode(',', $_GET['folder']);
+            if (in_array($folder['id'], $folderIds)) {
+              $selectedClass = 'selected';
+            }
+          }
+          ?>
+          <div class="filter-item <?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>">
+            <span class="folder-filter-dot" style="background-color: <?= htmlspecialchars($folder['color']) ?>"></span>
+            <?= htmlSafe($folder['name']) ?>
           </div>
           <?php
         }
@@ -88,7 +116,7 @@
           }
           ?>
           <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
-            <?= $payment['name'] ?>
+            <?= htmlSafe($payment['name']) ?>
           </div>
           <?php
         }
@@ -127,6 +155,14 @@
       <div class="filter-item capitalize" data-notificationtype="reminder"><?= translate("reminder", $i18n) ?></div>
       <div class="filter-item capitalize" data-notificationtype="cancellation"><?= translate("cancellation", $i18n) ?></div>
       <div class="filter-item capitalize" data-notificationtype="none"><?= translate("none", $i18n) ?></div>
+    </div>
+  </div>
+
+  <div class="filtermenu-submenu">
+    <div class="filter-title" onClick="toggleSubMenu('paid_status')"><?= translate("payment_status", $i18n) ?></div>
+    <div class="filtermenu-submenu-content" id="filter-paid_status">
+      <div class="filter-item capitalize" data-paidstatus="paid"><?= translate("paid", $i18n) ?></div>
+      <div class="filter-item capitalize" data-paidstatus="unpaid"><?= translate("unpaid", $i18n) ?></div>
     </div>
   </div>
 
